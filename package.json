@@ -1,0 +1,42 @@
+{
+  "name": "e-library",
+  "version": "1.0.0",
+  "description": "e-library is a web-based digital library application service",
+  "main": "server/index.js",
+  "scripts": {
+    "server-start": "node server/index.js",
+    "server-dev": "nodemon server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/febriadj/e-library.git"
+  },
+  "keywords": [
+    "e-library"
+  ],
+  "author": "Febriadji <iamfebriadji@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/febriadj/e-library/issues"
+  },
+  "homepage": "https://github.com/febriadj/e-library#readme",
+  "devDependencies": {
+    "eslint": "^8.5.0",
+    "eslint-config-airbnb": "^19.0.3",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "nodemon": "^2.0.15"
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.2",
+    "jsonwebtoken": "^8.5.1",
+    "mysql2": "^2.3.3",
+    "sequelize": "^7.0.0-alpha.2",
+    "uuid": "^8.3.2"
+  }
+}
