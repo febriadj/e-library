@@ -19,9 +19,14 @@
         "react"
     ],
     "rules": {
-        "brace-style": "off",
-        "linebreak-style": "off",
+        "import/no-unresolved": "off",
+        "import/extensions": "off",
+        "react/no-unescaped-entities": "off",
+        "react/prop-types": "off",
+        "react/self-closing-comp": "off",
         "semi": "off",
-        "no-console": "off"
+        "brace-style": "off",
+        "no-console": "off",
+        "linebreak-style": "off"
     }
 }
