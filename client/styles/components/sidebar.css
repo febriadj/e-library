@@ -1,0 +1,47 @@
+.sidebar {
+  position: fixed;
+  width: 260px; height: 100%;
+  color: #ffffffdd;
+  background: #222831;
+  z-index: 1;
+}
+.sidebar-wrap {
+  padding: 20px 0;
+  display: grid;
+  gap: 40px;
+}
+.header {
+  padding: 0 20px;
+}
+.header .text {
+  margin: 10px 0 0 0;
+  opacity: 0.5;
+  font-size: 0.85rem;
+}
+.header .logo {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+.menu {
+  display: grid;
+}
+.menu .link {
+  color: #ffffffdd;
+  text-decoration: none;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 15px;
+  align-items: center;
+  padding: 15px 20px;
+  cursor: pointer;
+}
+.menu .link .tag {
+  padding: 2px 5px;
+  border-radius: 1rem;
+  background: #188c94;
+  font-size: 0.8rem;
+}
+.link.active, .link:hover {
+  background: linear-gradient(45deg, #434d5c10, #434d5cbb);
+}

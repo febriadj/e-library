@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;600&display=swap');
+
+:root {
+  --font-body: 'Spline Sans', sans-serif;
+}
+
+* {
+  border: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-body);
+}
+input,
+textarea,
+button,
+p {
+  background: transparent;
+  font-size: 1rem;
+}
+body {
+  background: #f0f0f0;
+}
+
+input:-webkit-autofill {
+  transition: "color 9999s ease-out, background-color 9999s ease-out";
+  transition-delay: 9999s;
+}

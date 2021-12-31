@@ -1,0 +1,90 @@
+.login {
+  position: absolute;
+  width: 100%;
+  opacity: 0;
+  z-index: 0;
+  transition: linear 0.3s;
+  display: none;
+}
+.login.active {
+  opacity: 1;
+  z-index: 1;
+  display: block;
+}
+.login-wrap {
+  display: grid;
+}
+.header {
+  margin: 0 0 20px 0;
+  display: grid;
+  gap: 10px;
+  justify-items: flex-start;
+}
+.fields {
+  padding: 10px 15px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 0 15px;
+  align-items: center;
+  border-bottom: 1px solid #bbbbbb;
+  background: #f0f0f0;
+}
+.fields .center {
+  display: grid;
+  gap: 5px;
+}
+.form-control:-webkit-autofill {
+  transition: "color 9999s ease-out, background-color 9999s ease-out";
+  transition-delay: 9999s;
+}
+.form-control {
+  width: 100%;
+}
+.form-control::placeholder {
+  color: #00000070;
+}
+.response {
+  margin: 20px 0;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.response .text {
+  background: #f0f0f0;
+  padding: 5px 10px;
+  border-radius: 1rem;
+}
+.submit-btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  color: #ffffff;
+  background: #434d5c;
+  cursor: pointer;
+}
+.action {
+  margin: 10px 0 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.action .remember {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.action .forgot {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.footer {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin: 20px 0 0 0;
+}
+.footer .btn {
+  text-decoration: underline;
+  cursor: pointer;
+}

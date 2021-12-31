@@ -1,0 +1,30 @@
+.navbar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.info .tag {
+  width: 20px; height: 10px;
+  border-radius: 1rem;
+  background: #188c94;
+}
+.info .path {
+  margin: 5px 0 0 0;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.profile {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  text-align: right;
+}
+.profile .email {
+  margin: 5px 0 0 0;
+}
+.avatar {
+  width: 50px;
+  border-radius: 50%;
+}

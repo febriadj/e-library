@@ -1,0 +1,31 @@
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.thead {
+  font-weight: bold;
+}
+.thead .row {
+  border-bottom: 1px solid #888;
+}
+.tbody {
+  cursor: pointer;
+}
+.tbody .row:hover {
+  background: linear-gradient(45deg, #f0f0f0bb, #f0f0f080, #f0f0f0bb, #f0f0f080);
+  cursor: pointer;
+}
+.tbody .row:nth-of-type(1) {
+  margin: 5px 0 0 0;
+}
+.column {
+  padding: 5px 10px;
+  overflow-x: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.row {
+  display: grid;
+  grid-template-columns: 50px 120px 1fr 0.6fr 0.6fr 80px 0.6fr 100px;
+  align-items: center;
+}

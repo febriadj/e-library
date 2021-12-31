@@ -1,0 +1,97 @@
+.addbook {
+  position: fixed;
+  width: 100%; height: 100%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background: #22283180;
+  z-index: 9;
+}
+.addbook.active {
+  display: flex;
+}
+.addbook-wrap {
+  background: #ffffff;
+  width: 600px;
+}
+.nav {
+  padding: 20px 20px 0 15px;
+}
+.nav .text {
+  margin: 10px 0 0 5px;
+}
+.nav .top {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+.nav .top .btn {
+  width: 35px; height: 35px;
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.nav .btn:hover {
+  background: #f0f0f0;
+}
+.form {
+  padding: 20px;
+  display: grid;
+  grid-template-areas:
+  "title title"
+  "author publisher"
+  "publicationYear stock"
+  "response response"
+  "submit submit";
+  gap: 0 20px;
+}
+.fields {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0 15px;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #bbbbbb;
+}
+.fields .label {
+  font-weight: bold;
+}
+.control::placeholder {
+  color: #00000070;
+}
+.fields:nth-child(1) { grid-area: title; }
+.fields:nth-child(2) { grid-area: author; }
+.fields:nth-child(3) { grid-area: publisher; }
+.fields:nth-child(4) { grid-area: stock; }
+.fields:nth-child(5) {
+  grid-area: publicationYear;
+  grid-template-columns: 1fr;
+}
+.fields .control {
+  width: 100%;
+  padding: 5px 0 0 0;
+}
+.response {
+  grid-area: response;
+  margin: 20px 0;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.response .text {
+  background: #f0f0f0;
+  padding: 5px 10px;
+  border-radius: 1rem;
+}
+.submit-btn {
+  grid-area: submit;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  color: #ffffff;
+  background: #434d5c;
+  cursor: pointer;
+}

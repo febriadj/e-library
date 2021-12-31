@@ -1,0 +1,84 @@
+.register {
+  position: absolute;
+  width: 100%;
+  opacity: 0;
+  z-index: 0;
+  transition: linear 0.3s;
+  display: none;
+}
+.register.active {
+  opacity: 1;
+  z-index: 1;
+  display: block;
+}
+.register-wrap {
+  display: grid;
+  grid-template-areas:
+  "firstname lastname"
+  "email email"
+  "password password"
+  "action action"
+  "response response"
+  "submit-btn submit-btn";
+}
+.header {
+  margin: 0 0 20px 0;
+  display: grid;
+  gap: 10px;
+  justify-items: flex-start;
+}
+.fields {
+  padding: 10px 15px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 0 15px;
+  align-items: center;
+  border-bottom: 1px solid #bbbbbb;
+  background: #f0f0f0;
+}
+.fields:nth-child(1) { grid-area: firstname; }
+.fields:nth-child(2) { grid-area: lastname; }
+.fields:nth-child(3) { grid-area: email; }
+.fields:nth-child(4) { grid-area: password; }
+.fields .center {
+  display: grid;
+  gap: 5px;
+}
+.form-control {
+  width: 100%;
+}
+.form-control::placeholder {
+  color: #00000070;
+}
+.response {
+  grid-area: response;
+  margin: 20px 0;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.response .text {
+  background: #f0f0f0;
+  padding: 5px 10px;
+  border-radius: 1rem;
+}
+.submit-btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  color: #ffffff;
+  background: #434d5c;
+  cursor: pointer;
+  grid-area: submit-btn;
+}
+.footer {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin: 20px 0 0 0;
+}
+.footer .btn {
+  text-decoration: underline;
+  cursor: pointer;
+}
