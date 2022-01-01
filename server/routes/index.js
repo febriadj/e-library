@@ -1,7 +1,13 @@
 const router = require('express').Router();
-const users = require('../controllers/users');
+const authenticate = require('../middleware/auth');
+const user = require('../controllers/user');
+const book = require('../controllers/bookCatalog');
 
-router.post('/users/login', users.login);
-router.post('/users/register', users.register);
+router.get('/users', authenticate, user.findOne);
+router.post('/users/login', user.login);
+router.post('/users/register', user.register);
+
+router.get('/books', authenticate, book.find);
+router.post('/books', authenticate, book.insert);
 
 module.exports = router;
