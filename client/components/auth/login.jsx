@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import style from '../../styles/components/auth/login.css';
 
 function Login({
-  setLoggedIn,
   setRegisterIsOpen,
   registerIsOpen,
 }) {
   const isDev = process.env.NODE_ENV === 'development';
+  const dispatch = useDispatch();
+
   const [response, setResponse] = useState({
     success: false,
     message: '',
@@ -65,7 +67,12 @@ function Login({
 
       setTimeout(() => {
         localStorage.setItem('token', req.data);
-        setLoggedIn(true);
+        dispatch({
+          type: 'counter/isLoggedIn',
+          payload: {
+            data: true,
+          },
+        });
       }, 2000);
     }
     catch (error0) {
