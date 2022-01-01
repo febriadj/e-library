@@ -26,6 +26,7 @@
         "react/self-closing-comp": "off",
         "react/jsx-one-expression-per-line": "off",
         "semi": "off",
+        "radix": "off",
         "default-param-last": "off",
         "brace-style": "off",
         "no-console": "off",
