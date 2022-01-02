@@ -17,7 +17,6 @@
 }
 .profile {
   display: flex;
-  gap: 10px;
   align-items: center;
   text-align: right;
 }
@@ -25,6 +24,19 @@
   margin: 5px 0 0 0;
 }
 .avatar {
+  margin: 0 0 0 10px;
   width: 50px;
   border-radius: 50%;
+}
+.logout-btn {
+  width: 35px; height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  cursor: pointer;
+  transform: translate(5px, 0);
+}
+.logout-btn:hover {
+  background: #434d5c20;
 }

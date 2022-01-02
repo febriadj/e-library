@@ -3,11 +3,13 @@
   width: 260px; height: 100%;
   color: #ffffffdd;
   background: #222831;
+  display: flex;
   z-index: 1;
 }
 .sidebar-wrap {
   padding: 20px 0;
   display: grid;
+  grid-template-rows: auto 1fr auto;
   gap: 40px;
 }
 .header {
@@ -15,7 +17,7 @@
 }
 .header .text {
   margin: 10px 0 0 0;
-  opacity: 0.5;
+  color: #ffffff80;
   font-size: 0.85rem;
 }
 .header .logo {
@@ -24,7 +26,8 @@
   align-items: center;
 }
 .menu {
-  display: grid;
+  display: flex;
+  flex-direction: column;
 }
 .menu .link {
   color: #ffffffdd;
@@ -36,12 +39,25 @@
   padding: 15px 20px;
   cursor: pointer;
 }
-.menu .link .tag {
-  padding: 2px 5px;
-  border-radius: 1rem;
-  background: #188c94;
-  font-size: 0.8rem;
+.link.active, .link.active:hover {
+  background: #434d5cbb;
 }
-.link.active, .link:hover {
-  background: linear-gradient(45deg, #434d5c10, #434d5cbb);
+.link:hover {
+  background: #434d5c50;
+}
+.footer {
+  padding: 0 20px;
+  display: grid;
+  gap: 5px;
+}
+.footer .copyright {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+.footer .text {
+  font-size: 0.85rem;
+}
+.footer .symbol {
+  font-size: 1.2rem;
 }
