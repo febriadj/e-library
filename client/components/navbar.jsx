@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import style from '../styles/components/navbar.css';
 import avatar from '../assets/images/avatar.png';
 
-function Navbar({ path }) {
+function Navbar({ path, setLogoutIsOpen }) {
   const { user } = useSelector((state) => state);
 
   const configDate = {
@@ -43,6 +43,13 @@ function Navbar({ path }) {
           <p className={style.email}>{user.email}</p>
         </div>
         <img src={avatar} alt={avatar} className={style.avatar} />
+        <button
+          type="button"
+          className={style['logout-btn']}
+          onClick={() => setLogoutIsOpen(true)}
+        >
+          <box-icon name="log-in-circle"></box-icon>
+        </button>
       </div>
     </div>
   );
