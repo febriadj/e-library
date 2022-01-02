@@ -1,18 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import style from '../styles/pages/dashboard.css';
 
-import * as comp from '../components';
+import * as comp0 from '../components';
 
 function Dashboard() {
+  const [logoutIsOpen, setLogoutIsOpen] = useState(false);
+
   useEffect(() => {
     document.title = 'E-library - Dashboard';
   });
 
   return (
     <div className={style.dashboard}>
-      <comp.sidebar linkActive="dashboard" />
+      { logoutIsOpen && <comp0.logout setLogoutIsOpen={setLogoutIsOpen} /> }
+      <comp0.sidebar linkActive="dashboard" />
       <div className={style['dashboard-wrap']}>
-        <comp.navbar />
+        <comp0.navbar
+          setLogoutIsOpen={setLogoutIsOpen}
+        />
         <div className={style.top}>
           <p>top</p>
         </div>
