@@ -83,3 +83,29 @@ exports.find = async (req, res) => {
     });
   }
 }
+
+exports.delete = async (req, res) => {
+  try {
+    const data = await BookCatalogModel.destroy({
+      where: {
+        userId: req.user.userId,
+        bookCode: req.body.bookCode,
+      },
+      logging: false,
+    });
+
+    response({
+      res,
+      message: 'Managed to delete the book',
+      data,
+    });
+  }
+  catch (error0) {
+    response({
+      success: false,
+      res,
+      message: error0.message,
+      statusCode: 400,
+    });
+  }
+}
