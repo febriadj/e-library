@@ -9,5 +9,6 @@ router.post('/users/register', user.register);
 
 router.get('/books', authenticate, book.find);
 router.post('/books', authenticate, book.insert);
+router.delete('/books', authenticate, book.delete);
 
 module.exports = router;
