@@ -5,6 +5,7 @@ function AddBook({
   setAddBookIsOpen,
   addBookIsOpen,
   handleGetBookCatalogs,
+  handleInfoboxData,
 }) {
   const isDev = process.env.NODE_ENV === 'development';
   const [response, setResponse] = useState({
@@ -77,7 +78,14 @@ function AddBook({
       }));
 
       handleGetBookCatalogs();
-      setTimeout(() => setAddBookIsOpen(false), 2000);
+      handleInfoboxData();
+
+      setTimeout(() => {
+        setAddBookIsOpen(false);
+        setResponse((prev) => ({
+          ...prev, message: '', active: false,
+        }));
+      }, 2000);
     }
     catch (error0) {
       setResponse((prev) => ({
@@ -202,13 +210,13 @@ function AddBook({
             >
             </box-icon>
           </label>
-          <label className={style.fields} htmlFor="publication-year">
+          <label className={style.fields} htmlFor="publication-date">
             <div className={style.center}>
-              <p className={style.label}>Publication Year</p>
+              <p className={style.label}>Publication Date</p>
               <input
                 type="date"
                 name="publicationDate"
-                id="publication-year"
+                id="publication-date"
                 className={style.control}
                 onChange={handleChange}
                 value={fields.publicationDate}
