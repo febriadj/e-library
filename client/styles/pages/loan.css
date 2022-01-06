@@ -1,0 +1,37 @@
+.loan {
+  width: 100%;
+}
+.loan-wrap {
+  padding: 20px 20px 20px 280px;
+  display: grid;
+  gap: 20px;
+}
+.bottom {
+  display: grid;
+  background: #ffffff;
+  padding: 5px;
+}
+.bottom .header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  padding: 10px 10px 20px 8px;
+}
+.bottom .header .search-bar {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.bottom .header .search-bar input {
+  width: 100%;
+  padding: 5px 0;
+}
+.bottom .header .add-btn {
+  color: #ffffff;
+  background: #434d5c;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 5px 10px;
+  cursor: pointer;
+}

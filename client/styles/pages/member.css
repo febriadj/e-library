@@ -1,0 +1,72 @@
+.member {
+  width: 100%;
+}
+.member-wrap {
+  padding: 20px 20px 20px 280px;
+  display: grid;
+  gap: 20px;
+}
+.main {
+  display: grid;
+  background: #ffffff;
+  padding: 5px;
+}
+.main .header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  padding: 10px 10px 20px 8px;
+}
+.main .header .search-bar {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.main .header .search-bar input {
+  width: 100%;
+  padding: 5px 0;
+}
+.main .header .add-btn {
+  color: #ffffff;
+  background: #434d5c;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+.pagination {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  padding: 30px 10px 10px 10px;
+}
+.pagination .limit {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.pagination .limit .select-limit {
+  border: 1px solid #434d5c;
+  padding: 0 2px;
+  width: 50px; height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.pagination .move {
+  display: flex;
+  gap: 5px;
+}
+.pagination .move .btn {
+  background: #434d5c80;
+  color: #ffffff;
+  width: 30px; height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.pagination .move .btn.active {
+  background: #434d5c;
+}
