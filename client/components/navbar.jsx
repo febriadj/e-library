@@ -34,7 +34,7 @@ function Navbar({ path, setLogoutIsOpen }) {
         <p className={style.date}>{time}</p>
         <div className={style.path}>
           <span className={style.tag}></span>
-          <h3 className={style.text}>Dashboard {path && `/ ${path}`}</h3>
+          <h3 className={style.text}>Dashboard {path && `\\ ${path}`}</h3>
         </div>
       </div>
       <div className={style.profile}>
