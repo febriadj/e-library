@@ -58,6 +58,8 @@ function App() {
             < >
               <Route exact path="/" element={<page.dashboard />} />
               <Route exact path="/book" element={<page.bookCatalog />} />
+              <Route exact path="/loan" element={<page.loan />} />
+              <Route exact path="/member" element={<page.member />} />
             </>
           ) : <Route exact path="/" element={<page.auth />} />
         }
