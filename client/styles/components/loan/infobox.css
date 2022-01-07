@@ -1,0 +1,29 @@
+.infobox {
+  display: grid;
+  grid-template-columns: 0.7fr 0.7fr 1fr;
+  gap: 15px;
+}
+.box {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  background: #188c9450;
+  padding: 15px;
+}
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.content .total {
+  font-size: 4rem;
+  font-family: 'Roboto', sans-serif;
+}
+.box:nth-last-child(1) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #ffffff;
+}
+.box .canvas {
+  width: 100%;
+}

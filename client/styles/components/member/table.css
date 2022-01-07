@@ -1,0 +1,55 @@
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.thead {
+  font-weight: bold;
+}
+.thead .row {
+  border-bottom: 1px solid #888;
+}
+.tbody .row:hover {
+  background: linear-gradient(45deg, #f0f0f0bb, #f0f0f080, #f0f0f0bb, #f0f0f080);
+}
+.tbody .row {
+  cursor: default;
+}
+.tbody .row:nth-of-type(1) {
+  margin: 5px 0 0 0;
+}
+.column {
+  padding: 5px 10px;
+  overflow-x: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.row {
+  display: grid;
+  grid-template-columns: 50px 120px 0.6fr 0.6fr 0.5fr 1fr 0.5fr 100px;
+  align-items: center;
+  transition: cubic-bezier(0.08,0.82,0.17,1) 0.3s;
+}
+.row .action {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
+}
+.action .btn {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background: #f0f0f0;
+}
+.action .btn:hover {
+  background: #434d5c50;
+}
