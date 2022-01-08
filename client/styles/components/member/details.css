@@ -36,23 +36,24 @@
 .nav .btn:hover {
   background: #f0f0f0;
 }
-.table {
+.main {
   padding: 20px;
+}
+.table {
   width: 100%;
+  border-collapse: collapse;
 }
 .row {
   vertical-align: text-top;
+  border-bottom: 1px solid #dbdbdb;
 }
 .row .column:nth-child(1) {
   font-weight: bold;
-  width: 110px;
+  width: 120px;
 }
 .row .column:nth-child(2) {
-  padding: 0 10px;
-}
-.row .column:nth-child(3) {
-  border-bottom: 1px solid #22283180;
+  padding: 0 5px;
 }
 .row .column {
-  padding: 8px 0;
+  padding: 10px 0;
 }
