@@ -8,7 +8,7 @@ const MemberModel = conn.define('members', {
     allowNull: false,
   },
   id: {
-    type: DataTypes.UUID,
+    type: DataTypes.STRING(10),
     primaryKey: true,
   },
   documentId: {
@@ -17,6 +17,22 @@ const MemberModel = conn.define('members', {
     allowNull: false,
   },
   fullname: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  firstname: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  lastname: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  email: {
+    type: DataTypes.STRING,
+    defaultValue: '',
+  },
+  phone: {
     type: DataTypes.STRING,
     allowNull: false,
   },

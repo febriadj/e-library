@@ -3,7 +3,6 @@ const conn = require('../connect');
 
 const UserModel = require('./user');
 const BookCatalogModel = require('./bookCatalog');
-const MemberModel = require('./member');
 
 const LoanModel = conn.define('loans', {
   userId: {
@@ -15,16 +14,8 @@ const LoanModel = conn.define('loans', {
     allowNull: false,
   },
   memberId: {
-    type: DataTypes.UUID,
+    type: DataTypes.STRING(10),
     allowNull: false,
-  },
-  documentId: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    references: {
-      model: 'members',
-      key: 'documentId',
-    },
   },
   id: {
     type: DataTypes.UUID,
@@ -64,11 +55,6 @@ LoanModel.belongsTo(UserModel, obj);
 LoanModel.belongsTo(BookCatalogModel, {
   ...obj,
   foreignKey: 'bookCode',
-});
-
-LoanModel.belongsTo(MemberModel, {
-  ...obj,
-  foreignKey: 'documentId',
 });
 
 module.exports = LoanModel;
