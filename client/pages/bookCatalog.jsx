@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Chart from 'chart.js/auto';
 
 import style from '../styles/pages/bookCatalog.css';
-import infoboxStyle from '../styles/components/bookCatalog/infobox.css';
 import * as comp0 from '../components';
 import * as comp1 from '../components/bookCatalog';
 
@@ -63,7 +62,7 @@ function BookCatalogs() {
   }
 
   const handleChart = (args) => {
-    const ctx = document.getElementsByClassName(infoboxStyle.canvas)[0];
+    const ctx = document.querySelector('canvas');
     const chartData = [...args.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))];
 
     const chart = new Chart(ctx, {
@@ -117,12 +116,9 @@ function BookCatalogs() {
   }
 
   useEffect(() => {
-    document.title = 'E-library - Book Catalog';
-  });
-
-  useEffect(() => {
-    handleGetBookCatalogs();
+    document.title = 'E-Library - Book Catalog';
     handleInfoboxData();
+    handleGetBookCatalogs();
   }, [params]);
 
   return (

@@ -7,9 +7,32 @@ import * as comp1 from '../components/member';
 function Member() {
   const isDev = process.env.NODE_ENV === 'development';
 
-  const [logoutIsOpen, setLogoutIsOpen] = useState(false);
   const [members, setMembers] = useState([]);
   const [addMemberIsOpen, setAddMemberIsOpen] = useState(false);
+  const [updateMemberIsOpen, setUpdateMemberIsOpen] = useState(false);
+  const [detailsIsOpen, setDetailsIsOpen] = useState(false);
+  const [logoutIsOpen, setLogoutIsOpen] = useState(false);
+
+  const [details, setDetails] = useState({
+    id: '',
+    documentId: '',
+    firstname: '',
+    lastname: '',
+    email: '',
+    phone: '',
+    address: '',
+  });
+
+  const [update, setUpdate] = useState({
+    id: '',
+    documentId: '',
+    firstname: '',
+    lastname: '',
+    email: '',
+    phone: '',
+    address: '',
+  });
+
   const [params, setParams] = useState({
     page: 1,
     limit: 10,
@@ -61,7 +84,10 @@ function Member() {
   }
 
   useEffect(() => {
-    document.title = 'E-Library - Member'
+    document.title = 'E-Library - Member';
+  });
+
+  useEffect(() => {
     handleGetMembers();
   }, [params]);
 
@@ -73,6 +99,17 @@ function Member() {
         setAddMemberIsOpen={setAddMemberIsOpen}
         addMemberIsOpen={addMemberIsOpen}
         handleGetMembers={handleGetMembers}
+      />
+      <comp1.updateMember
+        updateMemberIsOpen={updateMemberIsOpen}
+        setUpdateMemberIsOpen={setUpdateMemberIsOpen}
+        member={update}
+        handleGetMembers={handleGetMembers}
+      />
+      <comp1.details
+        detailsIsOpen={detailsIsOpen}
+        setDetailsIsOpen={setDetailsIsOpen}
+        member={details}
       />
       <div className={style['member-wrap']}>
         <comp0.navbar
@@ -86,7 +123,7 @@ function Member() {
               <input
                 type="text"
                 name="q"
-                placeholder="Enter the title of the book you want to search"
+                placeholder="Enter the ID or name of the member you want to search"
                 onChange={(event) => (
                   setParams((prev) => ({
                     ...prev,
@@ -105,7 +142,14 @@ function Member() {
               <box-icon name="plus-circle" color="#ffffff"></box-icon>
             </button>
           </div>
-          <comp1.table members={members} />
+          <comp1.table
+            members={members}
+            handleGetMembers={handleGetMembers}
+            setUpdate={setUpdate}
+            setUpdateMemberIsOpen={setUpdateMemberIsOpen}
+            setDetails={setDetails}
+            setDetailsIsOpen={setDetailsIsOpen}
+          />
           <div className={style.pagination}>
             <div className={style.move}>
               <button
@@ -135,10 +179,10 @@ function Member() {
             </div>
             <div className={style.limit}>
               <select name="limit" className={style['select-limit']}>
-                <option value={5}>5</option>
                 <option value={10}>10</option>
-                <option value={15}>15</option>
                 <option value={20}>20</option>
+                <option value={30}>30</option>
+                <option value={40}>40</option>
               </select>
               <p className={style.text}>rows per page</p>
             </div>
