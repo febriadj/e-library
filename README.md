@@ -44,6 +44,8 @@ $ npm run dev
 # Screenshot 📸
 ![book-catalog-page](./documents/images/book-catalog-page.png)
 ![book-catalog-add](./documents/images/book-catalog-add.png)
+![member-page](./documents/images/member-page.png)
+![member-card](./documents/images/member-card.png)
 
 # Contributing
 Contributions make the open source community a great place to learn, inspire and create. I really appreciate every contribution you make.
