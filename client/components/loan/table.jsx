@@ -1,7 +1,13 @@
 import React from 'react';
 import style from '../../styles/components/loan/table.css';
 
-function Table({ loans }) {
+function Table({
+  handleGetLoans,
+  loans,
+  handleInfoboxData,
+}) {
+  const isDev = process.env.NODE_ENV === 'development';
+
   const formatDate = (args) => {
     const date = new Date(args).toLocaleDateString([], {
       day: '2-digit',
@@ -10,6 +16,41 @@ function Table({ loans }) {
     });
 
     return date;
+  }
+
+  const handleDeleteLoan = async (args) => {
+    try {
+      const token = localStorage.getItem('token');
+      const url = isDev ? 'http://localhost:8000/api/loans' : '/api/loans';
+
+      const request = await (await fetch(url, {
+        method: 'delete',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          id: args.id,
+        }),
+      })).json();
+
+      if (!request.success) throw request;
+
+      const ctx = document.getElementsByClassName(style.row)[args.index];
+      ctx.style = 'opacity: 0';
+
+      setTimeout(() => {
+        handleGetLoans();
+        handleInfoboxData();
+
+        setTimeout(() => {
+          ctx.style = 'opacity: 1';
+        }, 500);
+      }, 1000);
+    }
+    catch (error0) {
+      console.error(error0.message);
+    }
   }
 
   return (
@@ -44,10 +85,10 @@ function Table({ loans }) {
                 <button
                   type="button"
                   className={style.btn}
-                  // onClick={() => handleDeleteBook({
-                  //   index: index + 1,
-                  //   bookCode: item.bookCode,
-                  // })}
+                  onClick={() => handleDeleteLoan({
+                    index: index + 1,
+                    id: item.id,
+                  })}
                 >
                   <box-icon name="trash"></box-icon>
                 </button>
