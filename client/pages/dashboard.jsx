@@ -7,7 +7,7 @@ function Dashboard() {
   const [logoutIsOpen, setLogoutIsOpen] = useState(false);
 
   useEffect(() => {
-    document.title = 'E-library - Dashboard';
+    document.title = 'E-Library - Dashboard';
   });
 
   return (

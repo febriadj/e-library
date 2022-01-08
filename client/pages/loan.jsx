@@ -11,6 +11,7 @@ function Loan() {
   const [logoutIsOpen, setLogoutIsOpen] = useState(false);
   const [loans, setLoans] = useState([]);
   const [addLoanIsOpen, setAddLoanIsOpen] = useState(false);
+  const [infoboxData, setInfoboxData] = useState([]);
   const [params, setParams] = useState({
     page: 1,
     limit: 10,
@@ -66,6 +67,25 @@ function Loan() {
       if (!request.success) throw request;
 
       setLoans(request.data);
+    }
+    catch (error0) {
+      console.error(error0.message);
+    }
+  }
+
+  const handleInfoboxData = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const url = isDev ? 'http://localhost:8000/api/loans' : '/api/loans';
+
+      const request = await (await fetch(url, {
+        method: 'get',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })).json();
+
+      setInfoboxData(request.data);
       handleChart(request.data.sort((a, b) => b.stock - a.stock).slice(0, 5));
     }
     catch (error0) {
@@ -76,6 +96,7 @@ function Loan() {
   useEffect(() => {
     document.title = 'E-Library - Loan'
     handleGetLoans();
+    handleInfoboxData();
   }, [params]);
 
   return (
@@ -93,7 +114,7 @@ function Loan() {
           setLogoutIsOpen={setLogoutIsOpen}
         />
         <div className={style.top}>
-          <comp1.infobox loans={loans} />
+          <comp1.infobox loans={infoboxData} />
         </div>
         <div className={style.bottom}>
           <div className={style.header}>
@@ -121,7 +142,11 @@ function Loan() {
               <box-icon name="plus-circle" color="#ffffff"></box-icon>
             </button>
           </div>
-          <comp1.table loans={loans} />
+          <comp1.table
+            handleGetLoans={handleGetLoans}
+            loans={loans}
+            handleInfoboxData={handleInfoboxData}
+          />
         </div>
       </div>
     </div>
