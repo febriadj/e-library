@@ -66,7 +66,7 @@ function AddLoan({
       if (!request.success) throw request;
 
       setFields((prev) => ({
-        ...prev, bookCode: '', fullname: '', stock: '', deadline: '',
+        ...prev, bookCode: '', memberId: '', fullname: '', stock: '', deadline: '',
       }));
 
       setResponse((prev) => ({
