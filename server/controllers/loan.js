@@ -24,8 +24,6 @@ exports.insert = async (req, res) => {
       logging: false,
     });
 
-    console.log(member);
-
     if (!member) {
       const newError = {
         message: 'The user with this document ID is not registered',
@@ -81,7 +79,7 @@ exports.find = async (req, res) => {
       where: {
         userId: req.user.userId,
       },
-      order: [['updatedAt', 'DESC']],
+      order: [['createdAt', 'DESC']],
       logging: false,
     });
 
@@ -105,7 +103,7 @@ exports.delete = async (req, res) => {
   try {
     const loanConfig = {
       where: {
-        id: req.body.loanId,
+        id: req.body.id,
         userId: req.user.userId,
       },
       logging: false,

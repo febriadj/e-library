@@ -38,7 +38,7 @@ exports.find = async (req, res) => {
         where: {
           userId: req.user.userId,
         },
-        order: [['updatedAt', 'DESC']],
+        order: [['createdAt', 'DESC']],
         logging: false,
       });
     }
@@ -49,7 +49,7 @@ exports.find = async (req, res) => {
           where: {
             userId: req.user.userId,
           },
-          order: [['updatedAt', 'DESC']],
+          order: [['createdAt', 'DESC']],
           logging: false,
         });
       } else {
@@ -60,7 +60,7 @@ exports.find = async (req, res) => {
               [operator.like]: `%${q}%`,
             },
           },
-          order: [['updatedAt', 'DESC']],
+          order: [['createdAt', 'DESC']],
           logging: false,
         });
       }
