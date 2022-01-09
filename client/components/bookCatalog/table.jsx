@@ -5,6 +5,8 @@ function Table({
   catalogs,
   handleGetBookCatalogs,
   handleInfoboxData,
+  setUpdateData,
+  setUpdateBookIsOpen,
 }) {
   const isDev = process.env.NODE_ENV === 'development';
 
@@ -53,6 +55,11 @@ function Table({
     }
   }
 
+  const handleUpdateBook = (args) => {
+    setUpdateData(args);
+    setUpdateBookIsOpen(true);
+  }
+
   return (
     <table className={style.table}>
       <thead className={style.thead}>
@@ -79,7 +86,11 @@ function Table({
               <td className={style.column}>{item.stock}</td>
               <td className={style.column}>{formatDate(item.publicationDate)}</td>
               <td className={`${style.column} ${style.action}`}>
-                <button type="button" className={style.btn}>
+                <button
+                  type="button"
+                  className={style.btn}
+                  onClick={() => handleUpdateBook(item)}
+                >
                   <box-icon name="pencil"></box-icon>
                 </button>
                 <button
