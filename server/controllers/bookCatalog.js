@@ -1,5 +1,6 @@
 const { Op: operator } = require('sequelize');
 const BookCatalogModel = require('../database/models/bookCatalog');
+const LoanModel = require('../database/models/loan');
 const response = require('../helpers/response');
 const pagination = require('../helpers/pagination');
 
@@ -98,6 +99,54 @@ exports.delete = async (req, res) => {
       res,
       message: 'Managed to delete the book',
       data,
+    });
+  }
+  catch (error0) {
+    response({
+      success: false,
+      res,
+      message: error0.message,
+      statusCode: 400,
+    });
+  }
+}
+
+exports.update = async (req, res) => {
+  try {
+    const loan = await LoanModel.findOne({
+      where: {
+        userId: req.user.userId,
+        bookCode: req.body.bookCode,
+      },
+      logging: false,
+    });
+
+    if (loan) {
+      await LoanModel.update({
+        bookTitle: req.body.title,
+      }, {
+        where: {
+          userId: req.user.userId,
+          bookCode: req.body.bookCode,
+        },
+        logging: false,
+      });
+    }
+
+    const book = await BookCatalogModel.update({
+      ...req.body,
+    }, {
+      where: {
+        userId: req.user.userId,
+        bookCode: req.body.bookCode,
+      },
+      logging: false,
+    });
+
+    response({
+      res,
+      message: 'Successfully updated the book',
+      data: book,
     });
   }
   catch (error0) {
