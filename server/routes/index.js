@@ -13,6 +13,7 @@ router.post('/users/register', user.register);
 router.get('/books', authenticate, book.find);
 router.post('/books', authenticate, book.insert);
 router.delete('/books', authenticate, book.delete);
+router.put('/books', authenticate, book.update);
 
 router.get('/loans', authenticate, loan.find);
 router.post('/loans', authenticate, loan.insert);
