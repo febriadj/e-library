@@ -13,6 +13,11 @@ function Member() {
   const [detailsIsOpen, setDetailsIsOpen] = useState(false);
   const [logoutIsOpen, setLogoutIsOpen] = useState(false);
 
+  const [confirmDelete, setConfirmDelete] = useState({
+    data: null,
+    isOpen: false,
+  });
+
   const [details, setDetails] = useState({
     id: '',
     documentId: '',
@@ -117,6 +122,11 @@ function Member() {
           setLogoutIsOpen={setLogoutIsOpen}
         />
         <div className={style.main}>
+          <comp1.confirmDelete
+            confirmDelete={confirmDelete}
+            setConfirmDelete={setConfirmDelete}
+            handleGetMembers={handleGetMembers}
+          />
           <div className={style.header}>
             <div className={style['search-bar']}>
               <box-icon name="search-alt"></box-icon>
@@ -149,6 +159,7 @@ function Member() {
             setUpdateMemberIsOpen={setUpdateMemberIsOpen}
             setDetails={setDetails}
             setDetailsIsOpen={setDetailsIsOpen}
+            setConfirmDelete={setConfirmDelete}
           />
           <div className={style.pagination}>
             <div className={style.move}>

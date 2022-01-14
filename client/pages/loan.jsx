@@ -55,7 +55,8 @@ function Loan() {
   const handleGetLoans = async () => {
     try {
       const token = localStorage.getItem('token');
-      const url = isDev ? 'http://localhost:8000/api/loans' : '/api/loans';
+      const { q, page, limit } = params;
+      const url = isDev ? `http://localhost:8000/api/loans?q=${q}&page=${page}&limit=${limit}` : `/api/loans?q=${q}&page=${page}&limit=${limit}`;
 
       const request = await (await fetch(url, {
         method: 'get',
@@ -66,7 +67,7 @@ function Loan() {
 
       if (!request.success) throw request;
 
-      setLoans(request.data);
+      setLoans(request.data.list);
     }
     catch (error0) {
       console.error(error0.message);
