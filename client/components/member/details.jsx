@@ -21,6 +21,7 @@ function Details({
               <box-icon name="arrow-back"></box-icon>
             </button>
             <h2 className={style.title}>Membership Card</h2>
+            <span className={style.updated}>{`Updated ${moment(member.updatedAt).fromNow()}`}</span>
           </div>
         </div>
         <div className={style.main}>

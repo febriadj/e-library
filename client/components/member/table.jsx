@@ -8,6 +8,7 @@ function Table({
   setUpdateMemberIsOpen,
   setDetails,
   setDetailsIsOpen,
+  setConfirmDelete,
 }) {
   const isDev = process.env.NODE_ENV === 'development';
 
@@ -21,10 +22,33 @@ function Table({
     return date;
   }
 
+  const handleGetLoan = async (args) => {
+    try {
+      const token = localStorage.getItem('token');
+      const url = isDev ? `http://localhost:8000/api/loans?q=${args.id}` : `/api/loans${args.id}`;
+
+      const request = await (await fetch(url, {
+        method: 'get',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })).json();
+
+      if (!request.success || request.data.length > 0) throw request;
+      return true;
+    }
+    catch (error0) {
+      return false;
+    }
+  }
+
   const handleDeleteMember = async (args) => {
     try {
       const token = localStorage.getItem('token');
       const url = isDev ? 'http://localhost:8000/api/members' : '/api/members';
+
+      const loan = await handleGetLoan(args);
+      if (!loan) throw loan;
 
       const request = await (await fetch(url, {
         method: 'delete',
@@ -51,7 +75,9 @@ function Table({
       }, 1000);
     }
     catch (error0) {
-      console.error(error0.message);
+      setConfirmDelete((prev) => ({
+        ...prev, data: args, isOpen: true,
+      }));
     }
   }
 
@@ -88,18 +114,14 @@ function Table({
       <tbody className={style.tbody}>
         {
           members.map((item, index) => (
-            <tr
-              className={style.row}
-              key={item.id}
-              onDoubleClick={() => handleSetDetailsMember(item)}
-            >
-              <td className={style.column}>{index + 1}</td>
-              <td className={style.column}>{item.id}</td>
-              <td className={style.column}>{item.documentId}</td>
-              <td className={style.column}>{`${item.firstname} ${item.lastname}`}</td>
-              <td className={style.column}>{item.phone}</td>
-              <td className={style.column}>{item.address}</td>
-              <td className={style.column}>{formatDate(item.createdAt)}</td>
+            <tr className={style.row} key={item.id}>
+              <td className={style.column} onClick={() => handleSetDetailsMember(item)} aria-hidden="true">{index + 1}</td>
+              <td className={style.column} onClick={() => handleSetDetailsMember(item)} aria-hidden="true">{item.id}</td>
+              <td className={style.column} onClick={() => handleSetDetailsMember(item)} aria-hidden="true">{item.documentId}</td>
+              <td className={style.column} onClick={() => handleSetDetailsMember(item)} aria-hidden="true">{`${item.firstname} ${item.lastname}`}</td>
+              <td className={style.column} onClick={() => handleSetDetailsMember(item)} aria-hidden="true">{item.phone}</td>
+              <td className={style.column} onClick={() => handleSetDetailsMember(item)} aria-hidden="true">{item.address}</td>
+              <td className={style.column} onClick={() => handleSetDetailsMember(item)} aria-hidden="true">{formatDate(item.createdAt)}</td>
               <td className={`${style.column} ${style.action}`}>
                 <button
                   type="button"
