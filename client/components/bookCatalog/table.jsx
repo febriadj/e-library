@@ -7,6 +7,7 @@ function Table({
   handleInfoboxData,
   setUpdateData,
   setUpdateBookIsOpen,
+  setDetails,
 }) {
   const isDev = process.env.NODE_ENV === 'development';
 
@@ -60,6 +61,14 @@ function Table({
     setUpdateBookIsOpen(true);
   }
 
+  const handleOpenDetails = (args) => {
+    setDetails((prev) => ({
+      ...prev,
+      data: args,
+      isOpen: true,
+    }));
+  }
+
   return (
     <table className={style.table}>
       <thead className={style.thead}>
@@ -78,13 +87,13 @@ function Table({
         {
           catalogs.map((item, index) => (
             <tr className={style.row} key={item.bookCode}>
-              <td className={style.column}>{index + 1}</td>
-              <td className={style.column}>{item.bookCode}</td>
-              <td className={style.column}>{item.title}</td>
-              <td className={style.column}>{item.author}</td>
-              <td className={style.column}>{item.publisher}</td>
-              <td className={style.column}>{item.stock}</td>
-              <td className={style.column}>{formatDate(item.publicationDate)}</td>
+              <td className={style.column} onClick={() => handleOpenDetails(item)} aria-hidden="true">{index + 1}</td>
+              <td className={style.column} onClick={() => handleOpenDetails(item)} aria-hidden="true">{item.bookCode}</td>
+              <td className={style.column} onClick={() => handleOpenDetails(item)} aria-hidden="true">{item.title}</td>
+              <td className={style.column} onClick={() => handleOpenDetails(item)} aria-hidden="true">{item.author}</td>
+              <td className={style.column} onClick={() => handleOpenDetails(item)} aria-hidden="true">{item.publisher}</td>
+              <td className={style.column} onClick={() => handleOpenDetails(item)} aria-hidden="true">{item.stock}</td>
+              <td className={style.column} onClick={() => handleOpenDetails(item)} aria-hidden="true">{formatDate(item.publicationDate)}</td>
               <td className={`${style.column} ${style.action}`}>
                 <button
                   type="button"
