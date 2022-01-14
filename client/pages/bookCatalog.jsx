@@ -25,6 +25,10 @@ function BookCatalogs() {
   const [updateData, setUpdateData] = useState(null);
   const [catalogs, setCatalogs] = useState([]);
   const [infoboxData, setInfoboxData] = useState([]);
+  const [details, setDetails] = useState({
+    data: null,
+    isOpen: false,
+  });
 
   const [movePage, setMovePage] = useState({
     next: null,
@@ -141,6 +145,10 @@ function BookCatalogs() {
         handleInfoboxData={handleInfoboxData}
         book={updateData}
       />
+      <comp1.details
+        details={details}
+        setDetails={setDetails}
+      />
       <div className={style['book-wrap']}>
         <comp0.navbar
           path="bookCatalog"
@@ -182,6 +190,7 @@ function BookCatalogs() {
               handleInfoboxData={handleInfoboxData}
               setUpdateData={setUpdateData}
               setUpdateBookIsOpen={setUpdateBookIsOpen}
+              setDetails={setDetails}
             />
           </div>
           <div className={style.pagination}>
