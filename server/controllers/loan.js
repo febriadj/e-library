@@ -1,8 +1,10 @@
+const { Op: operator } = require('sequelize');
 const { v4: uuidv4 } = require('uuid');
 const LoanModel = require('../database/models/loan');
 const BookCatalogModel = require('../database/models/bookCatalog');
 const MemberModel = require('../database/models/member');
 const response = require('../helpers/response');
+const pagination = require('../helpers/pagination');
 
 exports.insert = async (req, res) => {
   try {
@@ -75,18 +77,50 @@ exports.insert = async (req, res) => {
 
 exports.find = async (req, res) => {
   try {
-    const loan = await LoanModel.findAll({
-      where: {
-        userId: req.user.userId,
-      },
-      order: [['createdAt', 'DESC']],
-      logging: false,
-    });
+    const { q, page = null, limit = null } = req.query;
+    const paramExists = Object.keys(req.query).length > 0;
+    let loans;
+
+    if (!paramExists) {
+      loans = await LoanModel.findAll({
+        where: {
+          userId: req.user.userId,
+        },
+        order: [['createdAt', 'DESC']],
+        logging: false,
+      });
+    }
+
+    if (paramExists) {
+      if (q.length === 0) {
+        loans = await LoanModel.findAll({
+          where: {
+            userId: req.user.userId,
+          },
+          order: [['createdAt', 'DESC']],
+          logging: false,
+        });
+      } else {
+        loans = await LoanModel.findAll({
+          where: {
+            userId: req.user.userId,
+            [operator.or]: [
+              { memberId: { [operator.like]: `%${q}%` } },
+              { bookCode: { [operator.like]: `%${q}%` } },
+            ],
+          },
+          order: [['createdAt', 'DESC']],
+          logging: false,
+        });
+      }
+    }
+
+    const data = page && limit ? pagination(loans, page, limit) : loans;
 
     response({
       res,
       message: 'The request was successfully received by the server',
-      data: loan,
+      data,
     });
   }
   catch (error0) {
