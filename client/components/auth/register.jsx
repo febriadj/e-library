@@ -155,7 +155,7 @@ function Register({
           </box-icon>
         </label>
         <label htmlFor="regisEmail" className={style.fields}>
-          <box-icon name="user" className={style.icon}></box-icon>
+          <box-icon name="envelope" className={style.icon}></box-icon>
           <span className={style.center}>
             <p className={style.label}>Email Address</p>
             <input
