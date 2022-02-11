@@ -9,6 +9,7 @@ const member = require('../controllers/member');
 router.get('/users', authenticate, user.findOne);
 router.post('/users/login', user.login);
 router.post('/users/register', user.register);
+router.post('/users/change-password', user.changePassword);
 
 router.get('/books', authenticate, book.find);
 router.post('/books', authenticate, book.insert);
