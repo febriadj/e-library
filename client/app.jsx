@@ -63,6 +63,10 @@ function App() {
             </>
           ) : <Route exact path="/" element={<page.auth />} />
         }
+        <Route
+          path="*"
+          element={<page.notfound />}
+        />
       </Routes>
     </BrowserRouter>
   );
