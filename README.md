@@ -12,34 +12,33 @@
 E-Library 📚 is a web-based digital library application service designed to facilitate data collection or library management 📋 for a campus/university, school or other agency. 🧑‍🎓
 
 The technology stack I used on this project includes:
-- Node.js & Express.js
-- React.js & Redux
-- MySQL
-- Sequelize
+- [Node.js](https://nodejs.org/en) & [Express.js](https://expressjs.com)
+- [React.js](https://reactjs.org) & [Redux](https://redux.js.org)
+- [MySQL](https://www.mysql.com)
+- [Sequelize](https://sequelize.org)
 
 # Getting Started
-Clone this Project to your Local Repository, then go to your project folder.
 ~~~
 $ git clone https://github.com/febriadj/e-library
 
 $ cd e-library/ && code .
 ~~~
+Clone this project to your local repository, then go to your project folder.
 
-Rename the .env.example file to .env
 ~~~
 $ mv .env.example .env
 ~~~
+Rename the `.env.example` file to `.env`
 
-Install and update all dependencies on this project.
 ~~~
-$ npm install && npm update
+$ npm install
 ~~~
-`npm update` is optional, run that command if you want to update all dependencies of this project.
+Install all dependencies on this project.
 
-Run the app in development mode. then open http://localhost:3000 in the browser.
 ~~~
 $ npm run dev
 ~~~
+Run the app in development mode. then open http://localhost:3000 in the browser.
 
 # Screenshot 📸
 ![book-catalog-page](./documents/images/book-catalog-page.png)
@@ -57,7 +56,6 @@ If you have any suggestions that would make this even better, please fork  this 
 - Commit your changes (git commit -m "Add new features")
 - Push to your branch (git push origin branchName)
 - Submit a pull request
-
 
 # License 📄
 Distributed under the MIT License. See [LICENSE.txt](https://github.com/febriadj/e-library/blob/master/LICENSE) for more information.
