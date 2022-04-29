@@ -8,11 +8,11 @@ const BookCatalogModel = conn.define('bookCatalogs', {
     allowNull: false,
   },
   bookCode: {
-    type: DataTypes.STRING,
+    type: DataTypes.CHAR(12),
     primaryKey: true,
   },
   title: {
-    type: DataTypes.TEXT,
+    type: DataTypes.STRING,
     unique: true,
     allowNull: false,
   },
@@ -22,7 +22,7 @@ const BookCatalogModel = conn.define('bookCatalogs', {
   },
   publisher: {
     type: DataTypes.STRING,
-    allowNull: false,
+    defaultValue: null,
   },
   stock: {
     type: DataTypes.INTEGER,
