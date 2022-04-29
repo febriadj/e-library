@@ -10,11 +10,11 @@ const LoanModel = conn.define('loans', {
     allowNull: false,
   },
   bookCode: {
-    type: DataTypes.STRING(10),
+    type: DataTypes.CHAR(12),
     allowNull: false,
   },
   memberId: {
-    type: DataTypes.STRING(10),
+    type: DataTypes.CHAR(9),
     allowNull: false,
   },
   id: {
