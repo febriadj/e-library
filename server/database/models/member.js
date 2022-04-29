@@ -8,7 +8,7 @@ const MemberModel = conn.define('members', {
     allowNull: false,
   },
   id: {
-    type: DataTypes.STRING(10),
+    type: DataTypes.CHAR(9),
     primaryKey: true,
   },
   documentId: {
