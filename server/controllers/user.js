@@ -17,6 +17,8 @@ exports.register = async (req, res) => {
       email,
       // save encrypted password
       password: encrypt,
+    }, {
+      logging: false,
     });
 
     response({
@@ -38,7 +40,10 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await UserModel.findOne({ where: { email } });
+    const user = await UserModel.findOne({
+      where: { email },
+      logging: false,
+    });
 
     if (!user) {
       // conditions if the username or email is not found
