@@ -45,6 +45,7 @@ exports.insert = async (req, res) => {
       userId: req.user.userId,
       id: uuidv4(),
       bookTitle: book.title,
+      fullname: member.fullname,
     }, {
       logging: false,
     });
@@ -129,6 +130,34 @@ exports.find = async (req, res) => {
       res,
       message: error0.message,
       statusCode: 403,
+    });
+  }
+}
+
+exports.update = async (req, res) => {
+  try {
+    const loan = await LoanModel.update({
+      ...req.body,
+    }, {
+      where: {
+        userId: req.user.userId,
+        id: req.body.id,
+      },
+      logging: false,
+    });
+
+    response({
+      res,
+      message: 'Successfully updated loan data',
+      data: loan,
+    });
+  }
+  catch (error0) {
+    response({
+      success: false,
+      res,
+      message: error0.message,
+      statusCode: 400,
     });
   }
 }
