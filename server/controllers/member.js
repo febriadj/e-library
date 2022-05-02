@@ -2,21 +2,28 @@ const { Op: operator } = require('sequelize');
 const MemberModel = require('../database/models/member');
 const response = require('../helpers/response');
 const pagination = require('../helpers/pagination');
+const recentActivities = require('../helpers/recentActivities');
 
 exports.insert = async (req, res) => {
   try {
-    const newId = [];
-    const str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let memberId = '';
+    const str = '0123456789ABCDEFGHIJ0123456789KLMNOPQRSTUVWXYZ0123456789';
 
-    for (let i = 0; i < 10; i += 1) {
+    for (let i = 0; i < 9; i += 1) {
       const random = Math.floor(Math.random() * str.length);
-      newId.push(str.charAt(random));
+      memberId += str.charAt(random);
     }
 
     const member = await MemberModel.create({
       ...req.body,
       userId: req.user.userId,
-      id: newId.join(''),
+      id: memberId,
+    });
+
+    await recentActivities({
+      req,
+      description: `Added new member. [${memberId}, ${req.body.fullname}]`,
+      action: 'create',
     });
 
     response({
