@@ -3,13 +3,24 @@ const BookCatalogModel = require('../database/models/bookCatalog');
 const LoanModel = require('../database/models/loan');
 const response = require('../helpers/response');
 const pagination = require('../helpers/pagination');
+const recentActivities = require('../helpers/recentActivities');
 
 exports.insert = async (req, res) => {
   try {
+    const bookCode = Math.floor(100000000000 + Math.random() * 900000000000).toString();
+
     const data = await BookCatalogModel.create({
       ...req.body,
-      bookCode: Math.floor(1000000000 + Math.random() * 9000000000).toString(),
+      bookCode,
       userId: req.user.userId,
+    }, {
+      logging: false,
+    });
+
+    await recentActivities({
+      req,
+      description: `Added new book. [${bookCode}, ${req.body.title}]`,
+      action: 'create',
     });
 
     response({
@@ -93,6 +104,12 @@ exports.delete = async (req, res) => {
         bookCode: req.body.bookCode,
       },
       logging: false,
+    });
+
+    await recentActivities({
+      req,
+      description: `Delete book catalog where Code ${req.body.bookCode}`,
+      action: 'delete',
     });
 
     response({
