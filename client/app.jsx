@@ -37,6 +37,17 @@ function App() {
     }
   }
 
+  const handlePagLimit = () => {
+    const local = localStorage.getItem('pag');
+    if (!local) {
+      localStorage.setItem('pag', JSON.stringify({
+        member: 10,
+        book: 10,
+        loan: 10,
+      }));
+    }
+  }
+
   useEffect(() => {
     const token = localStorage.getItem('token');
 
@@ -47,6 +58,7 @@ function App() {
       },
     });
 
+    handlePagLimit();
     if (isLoggedIn) handleGetUser();
   }, [isLoggedIn]);
 
@@ -60,13 +72,10 @@ function App() {
               <Route exact path="/book" element={<page.bookCatalog />} />
               <Route exact path="/loan" element={<page.loan />} />
               <Route exact path="/member" element={<page.member />} />
+              <Route path="*" element={<page.notfound />} />
             </>
-          ) : <Route exact path="/" element={<page.auth />} />
+          ) : <Route exact path="*" element={<page.auth />} />
         }
-        <Route
-          path="*"
-          element={<page.notfound />}
-        />
       </Routes>
     </BrowserRouter>
   );
