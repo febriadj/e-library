@@ -100,33 +100,48 @@ function Member() {
     <div className={style.member}>
       { logoutIsOpen && <comp0.logout setLogoutIsOpen={setLogoutIsOpen} /> }
       <comp0.sidebar linkActive="member" />
-      <comp1.addMember
-        setAddMemberIsOpen={setAddMemberIsOpen}
-        addMemberIsOpen={addMemberIsOpen}
-        handleGetMembers={handleGetMembers}
-      />
-      <comp1.updateMember
-        updateMemberIsOpen={updateMemberIsOpen}
-        setUpdateMemberIsOpen={setUpdateMemberIsOpen}
-        member={update}
-        handleGetMembers={handleGetMembers}
-      />
-      <comp1.details
-        detailsIsOpen={detailsIsOpen}
-        setDetailsIsOpen={setDetailsIsOpen}
-        member={details}
-      />
+      {
+        addMemberIsOpen && (
+          <comp1.addMember
+            setAddMemberIsOpen={setAddMemberIsOpen}
+            handleGetMembers={handleGetMembers}
+          />
+        )
+      }
+      {
+        updateMemberIsOpen && (
+          <comp1.updateMember
+            updateMemberIsOpen={updateMemberIsOpen}
+            setUpdateMemberIsOpen={setUpdateMemberIsOpen}
+            member={update}
+            handleGetMembers={handleGetMembers}
+          />
+        )
+      }
+      {
+        detailsIsOpen && (
+          <comp1.details
+            detailsIsOpen={detailsIsOpen}
+            setDetailsIsOpen={setDetailsIsOpen}
+            data={details}
+          />
+        )
+      }
+      {
+        confirmDelete.isOpen && (
+          <comp1.confirmDelete
+            confirmDelete={confirmDelete}
+            setConfirmDelete={setConfirmDelete}
+            handleGetMembers={handleGetMembers}
+          />
+        )
+      }
       <div className={style['member-wrap']}>
         <comp0.navbar
           path="Member"
           setLogoutIsOpen={setLogoutIsOpen}
         />
         <div className={style.main}>
-          <comp1.confirmDelete
-            confirmDelete={confirmDelete}
-            setConfirmDelete={setConfirmDelete}
-            handleGetMembers={handleGetMembers}
-          />
           <div className={style.header}>
             <div className={style['search-bar']}>
               <box-icon name="search-alt"></box-icon>
