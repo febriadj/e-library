@@ -1,8 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
 
 :root {
   --font-body: 'Spline Sans', sans-serif;
+  --font-mono: 'Roboto Mono', monospace;
 }
 
 * {
@@ -18,11 +20,11 @@ button,
 p {
   background: transparent;
   font-size: 1rem;
+  line-height: 1.3rem;
 }
 body {
   background: #f0f0f0;
 }
-
 input:-webkit-autofill {
   transition: "color 9999s ease-out, background-color 9999s ease-out";
   transition-delay: 9999s;
