@@ -5,41 +5,124 @@
 }
 .dashboard-wrap {
   width: 100%;
-  padding: 20px 20px 20px 280px;
+  padding: 20px 20px 20px 260px;
   display: grid;
-  grid-template-rows: auto 1fr 1fr;
+  grid-template-rows: auto auto 1fr;
   gap: 20px;
 }
-.top {
+.greeting {
+  background: #ffffff;
+  padding: 20px;
+}
+.greeting .title {
+  margin: 0 0 10px 0;
+}
+.monitor {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
   background: #ffffff;
 }
-.bottom {
+.monitor .box {
+  position: relative;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr auto;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 20px;
+}
+.monitor .box .info {
+  display: grid;
+  gap: 5px;
+}
+.monitor .box .info .link {
+  color: #000;
+  text-underline-offset: 2px;
+  text-decoration: none;
+}
+.monitor .box .icon {
+  background: #188c9450;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  position: absolute;
+  right: 0;
+  transform: translate(-20px, 20px);
+}
+.monitor .info .num {
+  font-size: 3rem;
+}
+
+.bottom {
+  position: relative;
+  background: #ffffff;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  padding: 20px 10px;
+}
+.bottom .header {
+  padding: 0 10px 20px 10px;
+  border-bottom: 1px solid #888;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 .activities {
   position: relative;
-  background: #ffffff;
-  padding: 20px;
+}
+.activities-wrap {
+  position: absolute;
+  width: 100%;
+  height: 100%;
   display: grid;
-  grid-template-rows: auto 1fr;
-  overflow-y: auto;
   gap: 20px;
+  overflow-y: auto;
+  align-self: flex-start;
 }
-.activities .list {
+.activities .table {
+  border-collapse: collapse;
+}
+.tbody td {
+  padding: 10px;
+}
+.tr.create {
+  background: #188c9410;
+}
+.tr.update {
+  background: #592ca110;
+}
+.tr.delete {
+  background: #ff335f10;
+}
+.tbody .action {
   display: flex;
-  gap: 5px;
-  flex-direction: column;
-}
-.activities .list .tag {
-  display: block;
-  width: 10px; height: 10px;
-  border-radius: 50%;
-  background: #c92146dd;
-}
-.activities .list .cards {
-  display: flex;
-  gap: 10px;
   align-items: center;
-  padding: 5px 0;
+}
+.tbody .action .dot {
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  transform: translate(0, 5px);
+}
+.tbody .action .dot.create {
+  background: #188c94;
+}
+.tbody .action .dot.update {
+  background: #592ca1;
+}
+.tbody .action .dot.delete {
+  background: #ff335f;
+}
+.tbody .tr .time {
+  text-align: right;
+  font-size: 0.9rem;
+}
+.tbody .tr {
+  display: grid;
+  grid-template-columns: 30px 200px 1fr auto;
+  cursor: default;
+  align-items: flex-start;
 }
