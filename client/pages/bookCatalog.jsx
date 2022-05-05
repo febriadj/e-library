@@ -7,10 +7,11 @@ import * as comp1 from '../components/bookCatalog';
 
 function BookCatalogs() {
   const isDev = process.env.NODE_ENV === 'development';
+  const pagLimit = JSON.parse(localStorage.getItem('pag'));
+
   const [logoutIsOpen, setLogoutIsOpen] = useState(false);
   const [params, setParams] = useState({
     page: 1,
-    limit: 5,
     q: '',
   });
 
@@ -18,6 +19,11 @@ function BookCatalogs() {
     start: '',
     end: '',
     length: '',
+  });
+
+  const [confirmDelete, setConfirmDelete] = useState({
+    data: null,
+    isOpen: false,
   });
 
   const [addBookIsOpen, setAddBookIsOpen] = useState(false);
@@ -35,11 +41,11 @@ function BookCatalogs() {
     prev: null,
   });
 
-  const handleGetBookCatalogs = async () => {
+  const handleGetBookCatalogs = async (args) => {
     try {
       const token = localStorage.getItem('token');
-      const { q, page, limit } = params;
-      const url = isDev ? `http://localhost:8000/api/books?q=${q}&page=${page}&limit=${limit}` : `/api/books?q=${q}&page=${page}&limit=${limit}`;
+      const { q, page } = params;
+      const url = isDev ? `http://localhost:8000/api/books?q=${q}&page=${page}&limit=${args}` : `/api/books?q=${q}&page=${page}&limit=${args}`;
 
       const request = await (await fetch(url, {
         method: 'get',
@@ -75,7 +81,9 @@ function BookCatalogs() {
     const chart = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: chartData.map((item) => item.title),
+        labels: chartData.map((item) => (
+          item.title.length <= 16 ? item.title : item.title.substr(0, 16).trim().concat('...')
+        )),
         datasets: [
           {
             label: 'Most Stock',
@@ -88,14 +96,7 @@ function BookCatalogs() {
         ],
       },
       options: {
-        responsive: false,
-        scales: {
-          x: {
-            ticks: {
-              display: false,
-            },
-          },
-        },
+        responsive: true,
       },
     });
 
@@ -115,43 +116,74 @@ function BookCatalogs() {
       })).json();
 
       setInfoboxData(request.data);
-      handleChart(request.data.sort((a, b) => b.stock - a.stock).slice(0, 5));
+      handleChart(request.data.sort((a, b) => b.stock - a.stock).slice(0, 3));
     }
     catch (error0) {
       console.error(error0.message);
     }
   }
 
+  const handlePagEnd = (event) => {
+    localStorage.setItem('pag', JSON.stringify({
+      member: pagLimit.member,
+      book: parseInt(event.target.value),
+      loan: pagLimit.loan,
+    }));
+
+    handleGetBookCatalogs(event.target.value);
+  }
+
   useEffect(() => {
     document.title = 'E-Library - Book Catalog';
+
     handleInfoboxData();
-    handleGetBookCatalogs();
+    handleGetBookCatalogs(pagLimit.book);
   }, [params]);
 
   return (
     <div className={style.book}>
       { logoutIsOpen && <comp0.logout setLogoutIsOpen={setLogoutIsOpen} /> }
       <comp0.sidebar linkActive="book" />
-      <comp1.addBook
-        setAddBookIsOpen={setAddBookIsOpen}
-        addBookIsOpen={addBookIsOpen}
-        handleGetBookCatalogs={handleGetBookCatalogs}
-        handleInfoboxData={handleInfoboxData}
-      />
-      <comp1.updateBook
-        setUpdateBookIsOpen={setUpdateBookIsOpen}
-        updateBookIsOpen={updateBookIsOpen}
-        handleGetBookCatalogs={handleGetBookCatalogs}
-        handleInfoboxData={handleInfoboxData}
-        book={updateData}
-      />
-      <comp1.details
-        details={details}
-        setDetails={setDetails}
-      />
+      {
+        addBookIsOpen && (
+          <comp1.addBook
+            setAddBookIsOpen={setAddBookIsOpen}
+            handleGetBookCatalogs={handleGetBookCatalogs}
+            handleInfoboxData={handleInfoboxData}
+          />
+        )
+      }
+      {
+        updateBookIsOpen && (
+          <comp1.updateBook
+            setUpdateBookIsOpen={setUpdateBookIsOpen}
+            handleGetBookCatalogs={handleGetBookCatalogs}
+            handleInfoboxData={handleInfoboxData}
+            book={updateData}
+          />
+        )
+      }
+      {
+        details.isOpen && (
+          <comp1.details
+            setDetails={setDetails}
+            data={details.data}
+          />
+        )
+      }
+      {
+        confirmDelete.isOpen && (
+          <comp1.confirmDelete
+            data={confirmDelete.data}
+            setConfirmDelete={setConfirmDelete}
+            handleGetBookCatalogs={handleGetBookCatalogs}
+            handleInfoboxData={handleInfoboxData}
+          />
+        )
+      }
       <div className={style['book-wrap']}>
         <comp0.navbar
-          path="bookCatalog"
+          path="Book Catalog"
           setLogoutIsOpen={setLogoutIsOpen}
         />
         <div className={style.top}>
@@ -191,6 +223,7 @@ function BookCatalogs() {
               setUpdateData={setUpdateData}
               setUpdateBookIsOpen={setUpdateBookIsOpen}
               setDetails={setDetails}
+              setConfirmDelete={setConfirmDelete}
             />
           </div>
           <div className={style.pagination}>
@@ -198,34 +231,43 @@ function BookCatalogs() {
               <button
                 type="button"
                 className={`${style.btn} ${movePage.prev ? style.active : null}`}
-                onClick={() => (
-                  movePage.prev && setParams((prev) => ({
-                    ...prev,
-                    page: movePage.prev,
-                  }))
-                )}
+                onClick={() => {
+                  if (movePage.prev) {
+                    setParams((prev) => ({
+                      ...prev,
+                      page: movePage.prev,
+                    }));
+                  }
+                }}
               >
                 <box-icon name="chevron-left" color="#ffffff"></box-icon>
               </button>
               <button
                 type="button"
                 className={`${style.btn} ${movePage.next ? style.active : null}`}
-                onClick={() => (
-                  movePage.next && setParams((prev) => ({
-                    ...prev,
-                    page: movePage.next,
-                  }))
-                )}
+                onClick={() => {
+                  if (movePage.next) {
+                    setParams((prev) => ({
+                      ...prev,
+                      page: movePage.next,
+                    }));
+                  }
+                }}
               >
                 <box-icon name="chevron-right" color="#ffffff"></box-icon>
               </button>
             </div>
             <div className={style.limit}>
-              <select name="limit" className={style['select-limit']}>
-                <option value={5}>5</option>
+              <select
+                name="limit"
+                className={style['select-limit']}
+                value={pagLimit.book}
+                onChange={handlePagEnd}
+              >
                 <option value={10}>10</option>
                 <option value={15}>15</option>
                 <option value={20}>20</option>
+                <option value={25}>30</option>
               </select>
               <p className={style.text}>rows per page</p>
             </div>
