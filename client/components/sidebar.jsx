@@ -14,7 +14,7 @@ function Sidebar({
             <h2>E-library</h2>
           </span>
           <p className={style.text}>
-            Simple and user-friendly web based digital library application.
+            Simple and user-friendly web-based digital library application
           </p>
         </div>
         <div className={style.menu}>
@@ -31,15 +31,12 @@ function Sidebar({
             <p className={style.text}>Book Catalog</p>
           </Link>
           <Link to="/loan" className={`${style.link} ${linkActive === 'loan' && style.active}`}>
-            <box-icon name="export" color="#ffffffdd"></box-icon>
+            <box-icon name="shopping-bag" color="#ffffffdd"></box-icon>
             <p className={style.text}>Loan</p>
           </Link>
         </div>
         <div className={style.footer}>
-          <span className={style.copyright}>
-            <p className={style.symbol}>&copy;</p>
-            <p className={style.text}>2022. All right reserved</p>
-          </span>
+          <p className={style.text}>&copy; 2022. All right reserved</p>
         </div>
       </div>
     </div>
