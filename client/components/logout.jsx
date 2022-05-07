@@ -1,15 +1,18 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import style from '../styles/components/logout.css';
 
 function Logout({ setLogoutIsOpen }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    setLogoutIsOpen(false);
 
     setTimeout(() => {
-      window.location.href = '/';
+      navigate('/');
 
       dispatch({
         type: 'counter/isLoggedIn',
@@ -20,14 +23,14 @@ function Logout({ setLogoutIsOpen }) {
         type: 'counter/user',
         payload: { data: null },
       });
-    }, 2000);
+    }, 1000);
   }
 
   return (
     <div className={style.logout}>
       <div className={style['logout-wrap']}>
         <div className={style.header}>
-          <h2 className={style.title}>Sign Out</h2>
+          <h2 className={style.title}>Sign Out.</h2>
           <span className={style.strip}></span>
           <p className={style.text}>
             Are you sure you want to sign out of this account?
