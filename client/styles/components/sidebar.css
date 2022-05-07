@@ -1,6 +1,6 @@
 .sidebar {
   position: fixed;
-  width: 260px; height: 100%;
+  width: 240px; height: 100%;
   color: #ffffffdd;
   background: #222831;
   display: flex;
@@ -19,6 +19,7 @@
   margin: 10px 0 0 0;
   color: #ffffff80;
   font-size: 0.85rem;
+  line-height: 1.2rem;
 }
 .header .logo {
   display: flex;
@@ -50,14 +51,6 @@
   display: grid;
   gap: 5px;
 }
-.footer .copyright {
-  display: flex;
-  gap: 5px;
-  align-items: center;
-}
 .footer .text {
   font-size: 0.85rem;
-}
-.footer .symbol {
-  font-size: 1.2rem;
 }
