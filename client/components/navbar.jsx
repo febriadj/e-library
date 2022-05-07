@@ -11,10 +11,10 @@ function Navbar({ path, setLogoutIsOpen }) {
   return (
     <div className={style.navbar}>
       <div className={style.info}>
-        <p className={style.date}>{moment(new Date()).format('MMMM DD, YYYY')}</p>
+        <p className={style.date}>{moment(new Date()).format('LL')}</p>
         <div className={style.path}>
           <span className={style.tag}></span>
-          <h3 className={style.text}>Dashboard {path && `\\ ${path}`}</h3>
+          <h3 className={style.text}>Dashboard {path && `/ ${path}`}</h3>
         </div>
       </div>
       <div className={style.profile}>
