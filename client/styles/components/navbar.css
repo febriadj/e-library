@@ -6,8 +6,8 @@
 }
 .info .tag {
   width: 20px; height: 10px;
-  border-radius: 1rem;
-  background: #188c94;
+  border-radius: 0 1rem 1rem 0;
+  background: #188c94ab;
 }
 .info .path {
   margin: 5px 0 0 0;
