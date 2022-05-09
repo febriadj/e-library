@@ -4,7 +4,7 @@ import style from '../../styles/components/member/confirmDelete.css';
 import tableStyle from '../../styles/components/member/table.css';
 
 function ConfirmDelete({
-  confirmDelete,
+  data,
   setConfirmDelete,
   handleGetMembers,
 }) {
@@ -21,7 +21,7 @@ function ConfirmDelete({
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        id: confirmDelete?.data?.id,
+        id: data.id,
       }),
     })).json();
 
@@ -32,7 +32,7 @@ function ConfirmDelete({
     }));
 
     setTimeout(() => {
-      const ctx = document.getElementsByClassName(tableStyle.row)[confirmDelete?.data?.index];
+      const ctx = document.getElementsByClassName(tableStyle.row)[data.index];
       ctx.style = 'opacity: 0';
 
       setTimeout(() => {
@@ -41,23 +41,33 @@ function ConfirmDelete({
         setTimeout(() => {
           ctx.style = 'opacity: 1';
         }, 500);
-      }, 700);
-    }, 300);
+      }, 500);
+    }, 500);
   }
 
   return (
-    <div className={`${style['confirm-delete']} ${confirmDelete.isOpen && style.active}`}>
+    <div className={style['confirm-delete']}>
+      <span
+        className={style['close-area']}
+        onClick={() => setConfirmDelete((prev) => ({
+          ...prev,
+          isOpen: false,
+        }))}
+        aria-hidden="true"
+      >
+      </span>
       <div className={style['confirm-delete-wrap']}>
         <div className={style.header}>
-          <h2 className={style.title}>Warning</h2>
+          <h2 className={style.title}>Confirm.</h2>
           <span className={style.strip}></span>
           <p className={style.text}>
-            This member still has the loan, do you still want to write it off and ignore the loan?
+            This member still has an active loan,
+            do you want to delete it and ignore the loan status?
           </p>
         </div>
         <div className={style.action}>
           <button
-            type="submit"
+            type="button"
             className={style.btn}
             onClick={() => setConfirmDelete((prev) => ({
               ...prev, data: null, isOpen: false,
@@ -67,11 +77,11 @@ function ConfirmDelete({
             <box-icon name="x-circle" color="#ffffff"></box-icon>
           </button>
           <button
-            type="submit"
+            type="button"
             className={style.btn}
             onClick={handleDeleteMember}
           >
-            <p className="text">Yes, I'm sure</p>
+            <p className="text">Yes, Delete</p>
             <box-icon name="check-circle" color="#ffffff"></box-icon>
           </button>
         </div>
