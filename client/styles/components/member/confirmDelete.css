@@ -1,14 +1,11 @@
 .confirm-delete {
   position: absolute;
   width: 100%; height: 100%;
-  display: none;
+  display: flex;
   justify-content: center;
   align-items: center;
-  background: #22283130;
+  background: #00050e80;
   z-index: 9;
-}
-.confirm-delete.active {
-  display: flex;
 }
 .confirm-delete-wrap {
   width: 400px;
@@ -20,11 +17,6 @@
   grid-template-columns: auto auto 1fr;
   gap: 20px;
   align-items: flex-start;
-}
-.header .strip {
-  display: block;
-  width: 2px; height: 30px;
-  background: #434d5c;
 }
 .title {
   margin: 0 0 10px 0;
@@ -45,4 +37,13 @@
   color: #ffffff;
   padding: 8px 10px;
   cursor: pointer;
+}
+.action .btn:hover {
+  filter: contrast(1.3);
+}
+.close-area {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
 }
