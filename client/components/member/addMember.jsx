@@ -3,7 +3,6 @@ import style from '../../styles/components/member/addMember.css';
 
 function AddMember({
   setAddMemberIsOpen,
-  addMemberIsOpen,
   handleGetMembers,
 }) {
   const isDev = process.env.NODE_ENV === 'development';
@@ -89,7 +88,7 @@ function AddMember({
         setResponse((prev) => ({
           ...prev, message: '', active: false,
         }));
-      }, 2000);
+      }, 1000);
     }
     catch (error0) {
       setResponse((prev) => ({
@@ -103,8 +102,8 @@ function AddMember({
 
   useEffect(() => {
     const expDocId = /^[a-zA-Z0-9]{5,30}$/g;
-    const expFirstname = /^[a-zA-Z\s]{3,30}$/g;
-    const expLastname = /^[a-zA-Z\s]{3,30}$/g;
+    const expFirstname = /^[a-zA-Z.,\s]{3,30}$/g;
+    const expLastname = /^[a-zA-Z.,\s]{3,30}$/g;
 
     setValid((prev) => ({
       ...prev,
@@ -117,7 +116,13 @@ function AddMember({
   }, [fields]);
 
   return (
-    <div className={`${style.addmember} ${addMemberIsOpen && style.active}`}>
+    <div className={style.addmember}>
+      <span
+        className={style['close-area']}
+        onClick={() => setAddMemberIsOpen(false)}
+        aria-hidden="true"
+      >
+      </span>
       <div className={style['addmember-wrap']}>
         <div className={style.nav}>
           <div className={style.top}>
@@ -131,7 +136,7 @@ function AddMember({
             <h2 className={style.title}>Add Member</h2>
           </div>
           <p className={style.text}>
-            Fill out all the available forms to add a new member.
+            Fill out all the available forms to add a new member
           </p>
         </div>
         <form method="post" className={style.form} onSubmit={handleSubmit}>
