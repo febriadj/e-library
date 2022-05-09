@@ -1,5 +1,8 @@
 import React from 'react';
+import moment from 'moment';
+
 import style from '../../styles/components/member/table.css';
+import handleGetLoan from '../../helpers/handleGetLoan';
 
 function Table({
   members,
@@ -12,43 +15,13 @@ function Table({
 }) {
   const isDev = process.env.NODE_ENV === 'development';
 
-  const formatDate = (args) => {
-    const date = new Date(args).toLocaleDateString([], {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric',
-    });
-
-    return date;
-  }
-
-  const handleGetLoan = async (args) => {
-    try {
-      const token = localStorage.getItem('token');
-      const url = isDev ? `http://localhost:8000/api/loans?q=${args.id}` : `/api/loans${args.id}`;
-
-      const request = await (await fetch(url, {
-        method: 'get',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })).json();
-
-      if (!request.success || request.data.length > 0) throw request;
-      return true;
-    }
-    catch (error0) {
-      return false;
-    }
-  }
-
   const handleDeleteMember = async (args) => {
     try {
       const token = localStorage.getItem('token');
       const url = isDev ? 'http://localhost:8000/api/members' : '/api/members';
 
-      const loan = await handleGetLoan(args);
-      if (!loan) throw loan;
+      const loan = await handleGetLoan(args.id);
+      if (loan.length > 0) throw loan;
 
       const request = await (await fetch(url, {
         method: 'delete',
@@ -72,7 +45,7 @@ function Table({
         setTimeout(() => {
           ctx.style = 'opacity: 1';
         }, 500);
-      }, 1000);
+      }, 500);
     }
     catch (error0) {
       setConfirmDelete((prev) => ({
@@ -121,7 +94,7 @@ function Table({
               <td className={style.column} onClick={() => handleSetDetailsMember(item)} aria-hidden="true">{`${item.firstname} ${item.lastname}`}</td>
               <td className={style.column} onClick={() => handleSetDetailsMember(item)} aria-hidden="true">{item.phone}</td>
               <td className={style.column} onClick={() => handleSetDetailsMember(item)} aria-hidden="true">{item.address}</td>
-              <td className={style.column} onClick={() => handleSetDetailsMember(item)} aria-hidden="true">{formatDate(item.createdAt)}</td>
+              <td className={style.column} onClick={() => handleSetDetailsMember(item)} aria-hidden="true">{moment(item.createdAt).format('ll')}</td>
               <td className={`${style.column} ${style.action}`}>
                 <button
                   type="button"
