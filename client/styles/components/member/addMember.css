@@ -1,14 +1,11 @@
 .addmember {
   position: fixed;
   width: 100%; height: 100%;
-  display: none;
+  display: flex;
   justify-content: center;
   align-items: center;
-  background: #22283180;
+  background: #00050e80;
   z-index: 9;
-}
-.addmember.active {
-  display: flex;
 }
 .addmember-wrap {
   background: #ffffff;
@@ -93,4 +90,13 @@
   color: #ffffff;
   background: #434d5c;
   cursor: pointer;
+}
+.submit-btn:hover {
+  filter: contrast(1.3);
+}
+.close-area {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
 }
