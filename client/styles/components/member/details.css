@@ -1,14 +1,11 @@
 .details {
   position: fixed;
   width: 100%; height: 100%;
-  display: none;
+  display: flex;
   justify-content: center;
   align-items: center;
-  background: #22283180;
+  background: #00050e80;
   z-index: 9;
-}
-.details.active {
-  display: flex;
 }
 .details-wrap {
   background: #ffffff;
@@ -68,4 +65,10 @@
   padding: 5px 10px;
   border-radius: 1rem;
   font-size: 0.9rem;
+}
+.close-area {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
 }
