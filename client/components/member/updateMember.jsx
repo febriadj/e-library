@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import style from '../../styles/components/member/addMember.css';
 
 function UpdateMember({
-  updateMemberIsOpen,
   setUpdateMemberIsOpen,
   member,
   handleGetMembers,
@@ -69,8 +68,10 @@ function UpdateMember({
           id: member.id,
           documentId: fields.documentId,
           fullname: `${fields.firstname} ${fields.lastname}`,
+          firstname: fields.firstname,
+          lastname: fields.lastname,
+          phone: fields.phone,
           address: fields.address,
-          postalCode: fields.postalCode,
         }),
       })).json();
 
@@ -94,7 +95,7 @@ function UpdateMember({
         setResponse((prev) => ({
           ...prev, message: '', active: false,
         }));
-      }, 2000);
+      }, 1000);
     }
     catch (error0) {
       setResponse((prev) => ({
@@ -115,8 +116,8 @@ function UpdateMember({
 
   useEffect(() => {
     const expDocId = /^[a-zA-Z0-9]{5,30}$/g;
-    const expFirstname = /^[a-zA-Z\s]{3,30}$/g;
-    const expLastname = /^[a-zA-Z\s]{3,30}$/g;
+    const expFirstname = /^[a-zA-Z.,\s]{3,30}$/g;
+    const expLastname = /^[a-zA-Z.,\s]{3,30}$/g;
 
     setValid((prev) => ({
       ...prev,
@@ -129,7 +130,13 @@ function UpdateMember({
   }, [fields]);
 
   return (
-    <div className={`${style.addmember} ${updateMemberIsOpen && style.active}`}>
+    <div className={style.addmember}>
+      <span
+        className={style['close-area']}
+        onClick={() => setUpdateMemberIsOpen(false)}
+        aria-hidden="true"
+      >
+      </span>
       <div className={style['addmember-wrap']}>
         <div className={style.nav}>
           <div className={style.top}>
@@ -143,7 +150,7 @@ function UpdateMember({
             <h2 className={style.title}>Update Member</h2>
           </div>
           <p className={style.text}>
-            Fill out all the available forms to update member.
+            Fill out all the available forms to update member
           </p>
         </div>
         <form method="post" className={style.form} onSubmit={handleSubmit}>
