@@ -1,22 +1,17 @@
 import React from 'react';
+import moment from 'moment';
 import style from '../../styles/components/loan/table.css';
 
 function Table({
   handleGetLoans,
   loans,
   handleInfoboxData,
+  setUpdateLoan,
+  setDetails,
+  page,
 }) {
   const isDev = process.env.NODE_ENV === 'development';
-
-  const formatDate = (args) => {
-    const date = new Date(args).toLocaleDateString([], {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric',
-    });
-
-    return date;
-  }
+  const pagLimit = JSON.parse(localStorage.getItem('pag'));
 
   const handleDeleteLoan = async (args) => {
     try {
@@ -40,17 +35,25 @@ function Table({
       ctx.style = 'opacity: 0';
 
       setTimeout(() => {
-        handleGetLoans();
+        handleGetLoans(pagLimit.loan);
         handleInfoboxData();
 
         setTimeout(() => {
           ctx.style = 'opacity: 1';
         }, 500);
-      }, 1000);
+      }, 500);
     }
     catch (error0) {
       console.error(error0.message);
     }
+  }
+
+  const handleOpenDetails = (args) => {
+    setDetails((prev) => ({
+      ...prev,
+      data: args,
+      isOpen: true,
+    }));
   }
 
   return (
@@ -71,15 +74,31 @@ function Table({
         {
           loans.map((item, index) => (
             <tr className={style.row} key={item.id}>
-              <td className={style.column}>{index + 1}</td>
-              <td className={style.column}>{item.memberId}</td>
-              <td className={style.column}>{item.bookCode}</td>
-              <td className={style.column}>{item.bookTitle}</td>
-              <td className={style.column}>{item.fullname}</td>
-              <td className={style.column}>{item.stock}</td>
-              <td className={style.column}>{formatDate(item.deadline)}</td>
+              <td className={style.column} onClick={() => handleOpenDetails(item)} aria-hidden="true">
+                {page > 1 ? (pagLimit.loan * (page - 1)) + (index + 1) : index + 1}
+              </td>
+              <td className={style.column} onClick={() => handleOpenDetails(item)} aria-hidden="true">{item.memberId}</td>
+              <td className={style.column} onClick={() => handleOpenDetails(item)} aria-hidden="true">{item.bookCode}</td>
+              <td className={style.column} onClick={() => handleOpenDetails(item)} aria-hidden="true">{item.bookTitle}</td>
+              <td className={style.column} onClick={() => handleOpenDetails(item)} aria-hidden="true">{item.fullname}</td>
+              <td className={style.column} onClick={() => handleOpenDetails(item)} aria-hidden="true">{item.stock}</td>
+              <td className={style.column}>
+                <span className={`${style.tag} ${new Date(item.deadline) < new Date() && style.expired}`}>
+                  {moment(item.deadline).format('ll')}
+                </span>
+              </td>
               <td className={`${style.column} ${style.action}`}>
-                <button type="button" className={style.btn}>
+                <button
+                  type="button"
+                  className={style.btn}
+                  onClick={() => {
+                    setUpdateLoan((prev) => ({
+                      ...prev,
+                      isOpen: true,
+                      data: item,
+                    }));
+                  }}
+                >
                   <box-icon name="pencil"></box-icon>
                 </button>
                 <button
