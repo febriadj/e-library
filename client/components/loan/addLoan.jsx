@@ -3,10 +3,11 @@ import style from '../../styles/components/loan/addLoan.css';
 
 function AddLoan({
   setAddLoanIsOpen,
-  addLoanIsOpen,
   handleGetLoans,
 }) {
   const isDev = process.env.NODE_ENV === 'development';
+  const pagLimit = JSON.parse(localStorage.getItem('pag'));
+
   const [response, setResponse] = useState({
     success: false,
     message: '',
@@ -16,14 +17,13 @@ function AddLoan({
   const [valid, setValid] = useState({
     bookCode: false,
     memberId: false,
-    fullname: false,
     stock: false,
+    deadline: false,
   });
 
   const [fields, setFields] = useState({
     bookCode: '',
     memberId: '',
-    fullname: '',
     stock: '',
     deadline: '',
   });
@@ -39,12 +39,7 @@ function AddLoan({
     try {
       event.preventDefault();
 
-      if (
-        !valid.bookCode
-        || !valid.memberId
-        || !valid.fullname
-        || !valid.stock
-      ) {
+      if (!valid.deadline) {
         const newError = {
           message: 'Please fill out the form correctly',
         }
@@ -66,7 +61,7 @@ function AddLoan({
       if (!request.success) throw request;
 
       setFields((prev) => ({
-        ...prev, bookCode: '', memberId: '', fullname: '', stock: '', deadline: '',
+        ...prev, bookCode: '', memberId: '', stock: '', deadline: '',
       }));
 
       setResponse((prev) => ({
@@ -76,14 +71,14 @@ function AddLoan({
         active: true,
       }));
 
-      handleGetLoans();
+      handleGetLoans(pagLimit.loan);
 
       setTimeout(() => {
         setAddLoanIsOpen(false);
         setResponse((prev) => ({
           ...prev, message: '', active: false,
         }));
-      }, 2000);
+      }, 1000);
     }
     catch (error0) {
       setResponse((prev) => ({
@@ -98,15 +93,21 @@ function AddLoan({
   useEffect(() => {
     setValid((prev) => ({
       ...prev,
-      bookCode: fields.bookCode.length === 10,
-      memberId: fields.memberId.length === 10,
-      fullname: fields.fullname.length >= 5 && fields.fullname.length <= 100,
+      bookCode: fields.bookCode.length === 12,
+      memberId: fields.memberId.length === 9,
       stock: fields.stock > 0 && fields.stock <= 999,
+      deadline: !!fields.deadline,
     }));
   }, [fields]);
 
   return (
-    <div className={`${style.addloan} ${addLoanIsOpen && style.active}`}>
+    <div className={style.addloan}>
+      <span
+        className={style['close-area']}
+        onClick={() => setAddLoanIsOpen(false)}
+        aria-hidden="true"
+      >
+      </span>
       <div className={style['addloan-wrap']}>
         <div className={style.nav}>
           <div className={style.top}>
@@ -166,24 +167,23 @@ function AddLoan({
             >
             </box-icon>
           </label>
-          <label className={style.fields} htmlFor="fullname">
+          <label className={style.fields} htmlFor="deadline-date">
             <div className={style.center}>
-              <p className={style.label}>Full Name</p>
+              <p className={style.label}>Deadline Date</p>
               <input
-                type="text"
-                name="fullname"
-                id="fullname"
+                type="date"
+                name="deadline"
+                id="deadline-date"
                 className={style.control}
-                placeholder="character length must be more than 5 to 30"
                 onChange={handleChange}
-                value={fields.fullname}
+                value={fields.deadline}
                 required
               />
             </div>
             <box-icon
-              name={valid.fullname ? 'check-circle' : 'x-circle'}
+              name={valid.deadline ? 'check-circle' : 'x-circle'}
               className={style.valid}
-              color={valid.fullname ? '#188c94' : '#9B0000'}
+              color={valid.deadline ? '#188c94' : '#9B0000'}
             >
             </box-icon>
           </label>
@@ -207,20 +207,6 @@ function AddLoan({
               color={valid.stock ? '#188c94' : '#9B0000'}
             >
             </box-icon>
-          </label>
-          <label className={style.fields} htmlFor="deadline-date">
-            <div className={style.center}>
-              <p className={style.label}>Deadline Date</p>
-              <input
-                type="date"
-                name="deadline"
-                id="deadline-date"
-                className={style.control}
-                onChange={handleChange}
-                value={fields.deadline}
-                required
-              />
-            </div>
           </label>
           <span className={style.response}>
             { response.active && (
