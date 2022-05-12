@@ -18,7 +18,15 @@
   background: linear-gradient(45deg, #f0f0f0bb, #f0f0f080, #f0f0f0bb, #f0f0f080);
 }
 .tbody .row {
-  cursor: default;
+  cursor: pointer;
+}
+.tbody .row .tag {
+  background: #188c9450;
+  border-radius: 1rem;
+  padding: 2px 10px;
+}
+.tbody .row .tag.expired {
+  background: #ff335f50;
 }
 .tbody .row:nth-of-type(1) {
   margin: 5px 0 0 0;
