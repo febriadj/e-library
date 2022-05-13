@@ -8,6 +8,7 @@ function Login({
 }) {
   const isDev = process.env.NODE_ENV === 'development';
   const dispatch = useDispatch();
+  const lConfig = JSON.parse(localStorage.getItem('config'));
 
   const [response, setResponse] = useState({
     success: false,
@@ -22,7 +23,7 @@ function Login({
 
   const [fields, setFields] = useState({
     remember: 'off',
-    email: '',
+    email: lConfig?.remember ?? '',
     password: '',
   });
 
@@ -42,6 +43,15 @@ function Login({
           message: 'Please fill out the form correctly',
         }
         throw newError;
+      }
+
+      if (fields.remember === 'on') {
+        localStorage.setItem(
+          'config',
+          JSON.stringify({
+            remember: fields.email,
+          }),
+        );
       }
 
       const url = isDev ? 'http://localhost:8000/api/users/login' : '/api/users/login';
