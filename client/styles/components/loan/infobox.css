@@ -9,6 +9,15 @@
   background: #188c9450;
   padding: 15px;
 }
+.box .icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #188c9450;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .content {
   display: flex;
   flex-direction: column;
