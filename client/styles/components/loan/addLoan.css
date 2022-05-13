@@ -1,14 +1,11 @@
 .addloan {
   position: fixed;
   width: 100%; height: 100%;
-  display: none;
+  display: flex;
   justify-content: center;
   align-items: center;
-  background: #22283180;
+  background: #00050e80;
   z-index: 9;
-}
-.addloan.active {
-  display: flex;
 }
 .addloan-wrap {
   background: #ffffff;
@@ -40,11 +37,12 @@
   padding: 20px;
   display: grid;
   grid-template-areas:
-  "title title"
-  "author publisher"
-  "publicationYear stock"
+  "memberId memberId"
+  "bookCode bookCode"
+  "deadline stock"
   "response response"
   "submit submit";
+  grid-template-columns: 1fr 1fr;
   gap: 0 20px;
 }
 .fields {
@@ -54,6 +52,7 @@
   align-items: center;
   padding: 10px 0;
   border-bottom: 1px solid #bbbbbb;
+  cursor: text;
 }
 .fields .label {
   font-weight: bold;
@@ -61,17 +60,20 @@
 .control::placeholder {
   color: #00000070;
 }
-.fields:nth-child(1) { grid-area: title; }
-.fields:nth-child(2) { grid-area: author; }
-.fields:nth-child(3) { grid-area: publisher; }
+.fields:nth-child(1) { grid-area: memberId; }
+.fields:nth-child(2) { grid-area: bookCode; }
+.fields:nth-child(3) { grid-area: deadline; }
 .fields:nth-child(4) { grid-area: stock; }
-.fields:nth-child(5) {
-  grid-area: publicationYear;
-  grid-template-columns: 1fr;
-}
 .fields .control {
   width: 100%;
   padding: 5px 0 0 0;
+}
+.fields.readonly {
+  opacity: 0.5;
+  cursor: default;
+}
+.fields.readonly .control {
+  cursor: default;
 }
 .response {
   grid-area: response;
@@ -94,4 +96,13 @@
   color: #ffffff;
   background: #434d5c;
   cursor: pointer;
+}
+.submit-btn:hover {
+  filter: contrast(1.3);
+}
+.close-area {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
 }
