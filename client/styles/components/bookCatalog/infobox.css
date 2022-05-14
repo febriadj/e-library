@@ -1,13 +1,22 @@
 .infobox {
   display: grid;
-  grid-template-columns: 0.7fr 0.7fr 1fr;
+  grid-template-columns: 0.5fr 0.5fr 1fr;
   gap: 15px;
 }
 .box {
   display: grid;
   grid-template-columns: 1fr auto;
-  background: #188c9450;
+  background: #ffffff;
   padding: 15px;
+}
+.box .icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #188c9450;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .content {
   display: flex;
