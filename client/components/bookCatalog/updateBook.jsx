@@ -6,11 +6,11 @@ import style from '../../styles/components/bookCatalog/addBook.css';
 function UpdateBook({
   book,
   setUpdateBookIsOpen,
-  updateBookIsOpen,
   handleGetBookCatalogs,
   handleInfoboxData,
 }) {
   const isDev = process.env.NODE_ENV === 'development';
+  const pagLimit = JSON.parse(localStorage.getItem('pag'));
 
   const [response, setResponse] = useState({
     success: false,
@@ -21,16 +21,15 @@ function UpdateBook({
   const [valid, setValid] = useState({
     title: false,
     author: false,
-    publisher: false,
     stock: false,
   });
 
   const [fields, setFields] = useState({
-    title: '',
-    author: '',
-    publisher: '',
-    stock: '',
-    publicationDate: '',
+    title: book ? book.title : '',
+    author: book ? book.author : '',
+    publisher: book ? book.publisher : '',
+    stock: book ? book.stock : '',
+    publicationDate: book ? moment(book.publicationDate).format('yyyy-MM-DD') : '',
   });
 
   const handleChange = (event) => {
@@ -47,7 +46,6 @@ function UpdateBook({
       if (
         !valid.title
         || !valid.author
-        || !valid.publisher
         || !valid.stock
       ) {
         const newError = {
@@ -84,7 +82,7 @@ function UpdateBook({
         active: true,
       }));
 
-      handleGetBookCatalogs();
+      handleGetBookCatalogs(pagLimit.book);
       handleInfoboxData();
 
       setTimeout(() => {
@@ -92,7 +90,7 @@ function UpdateBook({
         setResponse((prev) => ({
           ...prev, message: '', active: false,
         }));
-      }, 2000);
+      }, 1000);
     }
     catch (error0) {
       setResponse((prev) => ({
@@ -105,28 +103,22 @@ function UpdateBook({
   }
 
   useEffect(() => {
-    setFields((prev) => ({
-      ...prev,
-      title: book ? book.title : '',
-      author: book ? book.author : '',
-      publisher: book ? book.publisher : '',
-      stock: book ? book.stock : '',
-      publicationDate: book ? moment(book.publicationDate).format('yyyy-MM-DD') : '',
-    }));
-  }, [book]);
-
-  useEffect(() => {
     setValid((prev) => ({
       ...prev,
       title: fields.title.length >= 5 && fields.title.length <= 100,
       author: fields.author.length >= 3 && fields.author.length <= 30,
-      publisher: fields.publisher.length >= 3 && fields.publisher.length <= 100,
       stock: fields.stock > 0 && fields.stock <= 999,
     }));
   }, [fields]);
 
   return (
-    <div className={`${style.addbook} ${updateBookIsOpen && style.active}`}>
+    <div className={style.addbook}>
+      <span
+        className={style['close-area']}
+        onClick={() => setUpdateBookIsOpen(false)}
+        aria-hidden="true"
+      >
+      </span>
       <div className={style['addbook-wrap']}>
         <div className={style.nav}>
           <div className={style.top}>
@@ -137,10 +129,10 @@ function UpdateBook({
             >
               <box-icon name="arrow-back"></box-icon>
             </button>
-            <h2 className={style.title}>Add New Book</h2>
+            <h2 className={style.title}>Update Book</h2>
           </div>
           <p className={style.text}>
-            Fill out all the available forms to register a new book into the library.
+            Fill out all the required forms to update this selected book
           </p>
         </div>
         <form method="post" className={style.form} onSubmit={handleSubmit}>
@@ -197,15 +189,8 @@ function UpdateBook({
                 placeholder="character length must be more than 3 to 30"
                 onChange={handleChange}
                 value={fields.publisher}
-                required
               />
             </div>
-            <box-icon
-              name={valid.publisher ? 'check-circle' : 'x-circle'}
-              className={style.valid}
-              color={valid.publisher ? '#188c94' : '#9B0000'}
-            >
-            </box-icon>
           </label>
           <label className={style.fields} htmlFor="stock">
             <div className={style.center}>
