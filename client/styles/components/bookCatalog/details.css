@@ -1,14 +1,11 @@
 .details {
   position: fixed;
   width: 100%; height: 100%;
-  display: none;
+  display: flex;
   justify-content: center;
   align-items: center;
-  background: #22283180;
+  background: #00050e80;
   z-index: 9;
-}
-.details.active {
-  display: flex;
 }
 .details-wrap {
   background: #ffffff;
@@ -62,10 +59,24 @@
 .row .column:nth-child(2) {
   padding: 10px 5px;
 }
+.info {
+  margin: 20px 0 0 0;
+  background: #f0f0f0;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 .updated {
   display: block;
   background: #188c9450;
   padding: 5px 10px;
   border-radius: 1rem;
   font-size: 0.9rem;
+}
+.close-area {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
 }
