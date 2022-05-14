@@ -3,11 +3,12 @@ import style from '../../styles/components/bookCatalog/addBook.css';
 
 function AddBook({
   setAddBookIsOpen,
-  addBookIsOpen,
   handleGetBookCatalogs,
   handleInfoboxData,
 }) {
   const isDev = process.env.NODE_ENV === 'development';
+  const pagLimit = JSON.parse(localStorage.getItem('pag'));
+
   const [response, setResponse] = useState({
     success: false,
     message: '',
@@ -43,7 +44,6 @@ function AddBook({
       if (
         !valid.title
         || !valid.author
-        || !valid.publisher
         || !valid.stock
       ) {
         const newError = {
@@ -77,7 +77,7 @@ function AddBook({
         active: true,
       }));
 
-      handleGetBookCatalogs();
+      handleGetBookCatalogs(pagLimit.book);
       handleInfoboxData();
 
       setTimeout(() => {
@@ -85,7 +85,7 @@ function AddBook({
         setResponse((prev) => ({
           ...prev, message: '', active: false,
         }));
-      }, 2000);
+      }, 1000);
     }
     catch (error0) {
       setResponse((prev) => ({
@@ -102,13 +102,18 @@ function AddBook({
       ...prev,
       title: fields.title.length >= 5 && fields.title.length <= 100,
       author: fields.author.length >= 3 && fields.author.length <= 30,
-      publisher: fields.publisher.length >= 3 && fields.publisher.length <= 100,
       stock: fields.stock > 0 && fields.stock <= 999,
     }));
   }, [fields]);
 
   return (
-    <div className={`${style.addbook} ${addBookIsOpen && style.active}`}>
+    <div className={style.addbook}>
+      <span
+        className={style['close-area']}
+        onClick={() => setAddBookIsOpen(false)}
+        aria-hidden="true"
+      >
+      </span>
       <div className={style['addbook-wrap']}>
         <div className={style.nav}>
           <div className={style.top}>
@@ -122,7 +127,7 @@ function AddBook({
             <h2 className={style.title}>Add New Book</h2>
           </div>
           <p className={style.text}>
-            Fill out all the available forms to register a new book into the library.
+            Fill out all the available forms to register a new book into the library
           </p>
         </div>
         <form method="post" className={style.form} onSubmit={handleSubmit}>
@@ -179,15 +184,8 @@ function AddBook({
                 placeholder="character length must be more than 3 to 30"
                 onChange={handleChange}
                 value={fields.publisher}
-                required
               />
             </div>
-            <box-icon
-              name={valid.publisher ? 'check-circle' : 'x-circle'}
-              className={style.valid}
-              color={valid.publisher ? '#188c94' : '#9B0000'}
-            >
-            </box-icon>
           </label>
           <label className={style.fields} htmlFor="stock">
             <div className={style.center}>
@@ -234,7 +232,7 @@ function AddBook({
             ) }
             <p className={style.text}>{response.message}</p>
           </span>
-          <button type="submit" className={style['submit-btn']}>
+          <button type="submit" className={`g-btn ${style['submit-btn']}`}>
             <p className={style.text}>Submit</p>
             <box-icon name="plus-circle" color="#ffffff"></box-icon>
           </button>
