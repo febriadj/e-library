@@ -106,3 +106,39 @@ exports.findOne = async (req, res) => {
     });
   }
 }
+
+exports.delete = async (req, res) => {
+  try {
+    const option = {
+      where: {
+        id: req.user.userId,
+      },
+      logging: false,
+    }
+    const user = await UserModel.findOne(option);
+    const compare = await bcrypt.compare(req.body.password, user.password);
+
+    if (!compare) {
+      // condition if password doesn't match
+      const newError = {
+        message: 'Password doesn\'t match',
+      }
+      throw newError;
+    }
+
+    await UserModel.destroy(option);
+
+    response({
+      res,
+      message: 'Account deleted successfully',
+    });
+  }
+  catch (error0) {
+    response({
+      success: false,
+      res,
+      message: error0.message,
+      statusCode: 400,
+    });
+  }
+}
