@@ -11,12 +11,8 @@ const ActivitiesModel = conn.define('activities', {
     type: DataTypes.UUID,
     allowNull: false,
   },
-  action: {
-    type: DataTypes.ENUM(['create', 'update', 'delete']),
-    allowNull: false,
-  },
-  description: {
-    type: DataTypes.STRING,
+  page: {
+    type: DataTypes.ENUM(['member', 'book', 'loan']),
     allowNull: false,
   },
 }, {
