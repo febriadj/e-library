@@ -10,6 +10,7 @@ const member = require('../controllers/member');
 router.get('/users', authenticate, user.findOne);
 router.post('/users/login', user.login);
 router.post('/users/register', user.register);
+router.delete('/users', authenticate, user.delete);
 
 router.get('/activities', authenticate, activities.find);
 
