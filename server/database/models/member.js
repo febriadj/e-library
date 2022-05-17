@@ -30,7 +30,7 @@ const MemberModel = conn.define('members', {
   },
   email: {
     type: DataTypes.STRING,
-    defaultValue: '',
+    defaultValue: null,
   },
   phone: {
     type: DataTypes.STRING,
