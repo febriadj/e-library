@@ -2,15 +2,13 @@ const randomId = require('./randomId');
 const ActivitiesModel = require('../database/models/activities');
 
 module.exports = async ({
-  req,
-  description,
-  action,
+  userId,
+  page,
 }) => {
   await ActivitiesModel.create({
     id: randomId(16),
-    userId: req.user.userId,
-    action,
-    description,
+    userId,
+    page,
   }, {
     logging: false,
   });
