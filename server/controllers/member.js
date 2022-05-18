@@ -2,7 +2,7 @@ const { Op: operator } = require('sequelize');
 const MemberModel = require('../database/models/member');
 const response = require('../helpers/response');
 const pagination = require('../helpers/pagination');
-const recentActivities = require('../helpers/recentActivities');
+const activities = require('../helpers/activities');
 
 exports.insert = async (req, res) => {
   try {
@@ -20,10 +20,9 @@ exports.insert = async (req, res) => {
       id: memberId,
     });
 
-    await recentActivities({
-      req,
-      description: `Added new member. [${memberId}, ${req.body.fullname}]`,
-      action: 'create',
+    await activities({
+      userId: req.user.userId,
+      page: 'member',
     });
 
     response({
@@ -59,7 +58,7 @@ exports.find = async (req, res) => {
     }
 
     if (paramExists) {
-      if (q.length === 0) {
+      if (q.length < 3) {
         member = await MemberModel.findAll({
           where: {
             userId: req.user.userId,
@@ -72,7 +71,11 @@ exports.find = async (req, res) => {
           where: {
             userId: req.user.userId,
             [operator.or]: [
-              { id: q },
+              {
+                id: {
+                  [operator.like]: `${q}%`,
+                },
+              },
               {
                 fullname: {
                   [operator.like]: `%${q}%`,
@@ -114,6 +117,11 @@ exports.delete = async (req, res) => {
       logging: false,
     });
 
+    await activities({
+      userId: req.user.userId,
+      page: 'member',
+    });
+
     response({
       res,
       message: 'Successfully deleted member',
@@ -140,6 +148,11 @@ exports.update = async (req, res) => {
         userId: req.user.userId,
       },
       logging: false,
+    });
+
+    await activities({
+      userId: req.user.userId,
+      page: 'member',
     });
 
     response({
