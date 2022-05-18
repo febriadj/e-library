@@ -5,6 +5,7 @@ const BookCatalogModel = require('../database/models/bookCatalog');
 const MemberModel = require('../database/models/member');
 const response = require('../helpers/response');
 const pagination = require('../helpers/pagination');
+const activities = require('../helpers/activities');
 
 exports.insert = async (req, res) => {
   try {
@@ -60,6 +61,11 @@ exports.insert = async (req, res) => {
       logging: false,
     });
 
+    await activities({
+      userId: req.user.userId,
+      page: 'loan',
+    });
+
     response({
       res,
       message: 'Your loan application was successful',
@@ -93,7 +99,7 @@ exports.find = async (req, res) => {
     }
 
     if (paramExists) {
-      if (q.length === 0) {
+      if (q.length < 3) {
         loans = await LoanModel.findAll({
           where: {
             userId: req.user.userId,
@@ -146,6 +152,11 @@ exports.update = async (req, res) => {
       logging: false,
     });
 
+    await activities({
+      userId: req.user.userId,
+      page: 'loan',
+    });
+
     response({
       res,
       message: 'Successfully updated loan data',
@@ -183,6 +194,11 @@ exports.delete = async (req, res) => {
         bookCode: loan.bookCode,
       },
       logging: false,
+    });
+
+    await activities({
+      userId: req.user.userId,
+      page: 'loan',
     });
 
     response({
