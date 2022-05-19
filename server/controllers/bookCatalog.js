@@ -3,7 +3,7 @@ const BookCatalogModel = require('../database/models/bookCatalog');
 const LoanModel = require('../database/models/loan');
 const response = require('../helpers/response');
 const pagination = require('../helpers/pagination');
-const recentActivities = require('../helpers/recentActivities');
+const activities = require('../helpers/activities');
 
 exports.insert = async (req, res) => {
   try {
@@ -17,10 +17,9 @@ exports.insert = async (req, res) => {
       logging: false,
     });
 
-    await recentActivities({
-      req,
-      description: `Added new book. [${bookCode}, ${req.body.title}]`,
-      action: 'create',
+    await activities({
+      userId: req.user.userId,
+      page: 'book',
     });
 
     response({
@@ -56,7 +55,7 @@ exports.find = async (req, res) => {
     }
 
     if (paramExists) {
-      if (q.length === 0) {
+      if (q.length < 3) {
         books = await BookCatalogModel.findAll({
           where: {
             userId: req.user.userId,
@@ -106,10 +105,9 @@ exports.delete = async (req, res) => {
       logging: false,
     });
 
-    await recentActivities({
-      req,
-      description: `Delete book catalog where Code ${req.body.bookCode}`,
-      action: 'delete',
+    await activities({
+      userId: req.user.userId,
+      page: 'book',
     });
 
     response({
@@ -158,6 +156,11 @@ exports.update = async (req, res) => {
         bookCode: req.body.bookCode,
       },
       logging: false,
+    });
+
+    await activities({
+      userId: req.user.userId,
+      page: 'book',
     });
 
     response({
