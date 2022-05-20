@@ -6,12 +6,19 @@ import * as comp1 from '../components/member';
 
 function Member() {
   const isDev = process.env.NODE_ENV === 'development';
+  const pagLimit = JSON.parse(localStorage.getItem('pag'));
 
   const [members, setMembers] = useState([]);
   const [addMemberIsOpen, setAddMemberIsOpen] = useState(false);
   const [updateMemberIsOpen, setUpdateMemberIsOpen] = useState(false);
   const [detailsIsOpen, setDetailsIsOpen] = useState(false);
-  const [logoutIsOpen, setLogoutIsOpen] = useState(false);
+
+  const [modal, setModal] = useState({
+    deleteAccount: false,
+    changePassword: false,
+    logout: false,
+    profile: false,
+  });
 
   const [confirmDelete, setConfirmDelete] = useState({
     data: null,
@@ -40,7 +47,6 @@ function Member() {
 
   const [params, setParams] = useState({
     page: 1,
-    limit: 10,
     q: '',
   });
 
@@ -55,11 +61,11 @@ function Member() {
     prev: null,
   });
 
-  const handleGetMembers = async () => {
+  const handleGetMembers = async (args) => {
     try {
       const token = localStorage.getItem('token');
-      const { q, page, limit } = params;
-      const url = isDev ? `http://localhost:8000/api/members?q=${q}&page=${page}&limit=${limit}` : `/api/members?q=${q}&page=${page}&limit=${limit}`;
+      const { q, page } = params;
+      const url = isDev ? `http://localhost:8000/api/members?q=${q}&page=${page}&limit=${args}` : `/api/members?q=${q}&page=${page}&limit=${args}`;
 
       const request = await (await fetch(url, {
         method: 'get',
@@ -90,16 +96,24 @@ function Member() {
 
   useEffect(() => {
     document.title = 'E-Library - Member';
-  });
+  }, []);
 
   useEffect(() => {
-    handleGetMembers();
+    handleGetMembers(pagLimit.member);
   }, [params]);
 
   return (
     <div className={style.member}>
-      { logoutIsOpen && <comp0.logout setLogoutIsOpen={setLogoutIsOpen} /> }
       <comp0.sidebar linkActive="member" />
+      { modal.logout && <comp0.logout setModal={setModal} /> }
+      { modal.deleteAccount && (<comp0.deleteAccount setModal={setModal} />) }
+      {
+        modal.profile && (
+          <comp0.profile
+            setModal={setModal}
+          />
+        )
+      }
       {
         addMemberIsOpen && (
           <comp1.addMember
@@ -139,7 +153,7 @@ function Member() {
       <div className={style['member-wrap']}>
         <comp0.navbar
           path="Member"
-          setLogoutIsOpen={setLogoutIsOpen}
+          setModal={setModal}
         />
         <div className={style.main}>
           <div className={style.header}>
@@ -204,7 +218,20 @@ function Member() {
               </button>
             </div>
             <div className={style.limit}>
-              <select name="limit" className={style['select-limit']}>
+              <select
+                name="limit"
+                className={style['select-limit']}
+                value={pagLimit.member}
+                onChange={(event) => {
+                  localStorage.setItem('pag', JSON.stringify({
+                    member: parseInt(event.target.value),
+                    book: pagLimit.book,
+                    loan: pagLimit.loan,
+                  }));
+
+                  handleGetMembers(event.target.value);
+                }}
+              >
                 <option value={10}>10</option>
                 <option value={20}>20</option>
                 <option value={30}>30</option>
