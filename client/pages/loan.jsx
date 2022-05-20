@@ -1,18 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import Chart from 'chart.js/auto';
 
 import style from '../styles/pages/loan.css';
+import styleInfobox from '../styles/components/loan/infobox.css';
+
 import * as comp0 from '../components';
 import * as comp1 from '../components/loan';
+import handleChart from '../helpers/handleChart';
 
 function Loan() {
   const isDev = process.env.NODE_ENV === 'development';
   const pagLimit = JSON.parse(localStorage.getItem('pag'));
 
-  const [logoutIsOpen, setLogoutIsOpen] = useState(false);
   const [loans, setLoans] = useState([]);
   const [addLoanIsOpen, setAddLoanIsOpen] = useState(false);
   const [infoboxData, setInfoboxData] = useState([]);
+
+  const [modal, setModal] = useState({
+    deleteAccount: false,
+    changePassword: false,
+    logout: false,
+    profile: false,
+  });
 
   const [details, setDetails] = useState({
     data: null,
@@ -39,40 +47,6 @@ function Loan() {
     next: null,
     prev: null,
   });
-
-  const handleChart = (args) => {
-    const ctx = document.querySelector('canvas');
-    const chartData = [...args.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))];
-
-    const chart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: chartData.map((item) => item.id),
-        datasets: [
-          {
-            label: 'Most Stock',
-            backgroundColor: [
-              '#434d5cbb', '#434d5c80',
-            ],
-            maxBarThickness: 80,
-            data: chartData.map((item) => item.stock),
-          },
-        ],
-      },
-      options: {
-        responsive: false,
-        scales: {
-          x: {
-            ticks: {
-              display: false,
-            },
-          },
-        },
-      },
-    });
-
-    return chart;
-  }
 
   const handleGetLoans = async (args) => {
     try {
@@ -120,7 +94,15 @@ function Loan() {
       })).json();
 
       setInfoboxData(request.data);
-      handleChart(request.data.sort((a, b) => b.stock - a.stock).slice(0, 5));
+      handleChart({
+        label: 'id',
+        ctx: document.querySelector(`.${styleInfobox.canvas}`),
+        payload: request.data.sort((a, b) => b.stock - a.stock).slice(0, 5),
+        datasets: {
+          label: 'fullname',
+          data: 'stock',
+        },
+      });
     }
     catch (error0) {
       console.error(error0.message);
@@ -141,18 +123,30 @@ function Loan() {
     document.title = 'E-Library - Loan';
 
     handleInfoboxData();
+  }, []);
+
+  useEffect(() => {
     handleGetLoans(pagLimit.loan);
   }, [params]);
 
   return (
     <div className={style.loan}>
-      { logoutIsOpen && <comp0.logout setLogoutIsOpen={setLogoutIsOpen} /> }
       <comp0.sidebar linkActive="loan" />
+      { modal.logout && <comp0.logout setModal={setModal} /> }
+      { modal.deleteAccount && (<comp0.deleteAccount setModal={setModal} />) }
+      {
+        modal.profile && (
+          <comp0.profile
+            setModal={setModal}
+          />
+        )
+      }
       {
         addLoanIsOpen && (
           <comp1.addLoan
             setAddLoanIsOpen={setAddLoanIsOpen}
             handleGetLoans={handleGetLoans}
+            handleInfoboxData={handleInfoboxData}
           />
         )
       }
@@ -176,7 +170,7 @@ function Loan() {
       <div className={style['loan-wrap']}>
         <comp0.navbar
           path="Loan"
-          setLogoutIsOpen={setLogoutIsOpen}
+          setModal={setModal}
         />
         <div className={style.top}>
           <comp1.infobox loans={infoboxData} />
