@@ -1,37 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import Chart from 'chart.js/auto';
+
 import moment from 'moment';
 import style from '../styles/pages/dashboard.css';
 
 import * as comp0 from '../components';
 
 function Dashboard() {
+  const isDev = process.env.NODE_ENV === 'development';
   const token = localStorage.getItem('token');
 
-  const [logoutIsOpen, setLogoutIsOpen] = useState(false);
-  const [members, setMembers] = useState({ length: 0, today: 0 });
-  const [books, setBooks] = useState({ length: 0, today: 0 });
-  const [loans, setLoans] = useState({ length: 0, today: 0 });
-  const [activities, setActivities] = useState([]);
+  const [monitor, setMonitor] = useState({
+    members: { len: 0, sen: 0 },
+    books: { len: 0, sen: 0 },
+    loans: { len: 0, sen: 0 },
+  });
 
-  const handleGetActivities = async () => {
-    try {
-      const url = 'http://localhost:8000/api/activities';
-      const request = await (await fetch(url, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })).json();
+  const [modal, setModal] = useState({
+    deleteAccount: false,
+    changePassword: false,
+    logout: false,
+    profile: false,
+  });
 
-      setActivities(request.data);
-    }
-    catch (error0) {
-      console.error(error0.message);
-    }
-  }
-
-  const handleGetMonitorData = async () => {
+  const handleGetMonitorData = async (args) => {
     try {
       const options = {
         method: 'GET',
@@ -40,26 +32,98 @@ function Dashboard() {
         },
       }
       const [m, b, l] = await Promise.all([
-        (await fetch('http://localhost:8000/api/members', options)).json(),
-        (await fetch('http://localhost:8000/api/books', options)).json(),
-        (await fetch('http://localhost:8000/api/loans', options)).json(),
+        (await fetch(isDev ? 'http://localhost:8000/api/members' : '/api/members', options)).json(),
+        (await fetch(isDev ? 'http://localhost:8000/api/books' : '/api/books', options)).json(),
+        (await fetch(isDev ? 'http://localhost:8000/api/loans' : '/api/loans', options)).json(),
       ]);
 
-      const todayData = (args) => (
-        args.filter((obj) => (
-          moment(new Date(obj.updatedAt)).format('DD/MM/YY') === moment(new Date()).format('DD/MM/YY')
-        )).length
-      );
+      const handleSen = (args2) => {
+        const reduced = args2.reduce((acc, curr) => acc + curr);
 
-      setMembers((prev) => ({
-        ...prev, length: m.data.length, today: todayData(m.data),
+        if (reduced === 0) return 0.00 * 100;
+        return (((args2[args2.length - 1] / reduced) * 1.00) * 100).toFixed(1);
+      }
+
+      setMonitor((prev) => ({
+        ...prev,
+        members: {
+          sen: handleSen(args.members),
+          len: m.data.length,
+        },
+        books: {
+          sen: handleSen(args.books),
+          len: b.data.length,
+        },
+        loans: {
+          sen: handleSen(args.loans),
+          len: l.data.length,
+        },
       }));
-      setBooks((prev) => ({
-        ...prev, length: b.data.length, today: todayData(b.data),
-      }));
-      setLoans((prev) => ({
-        ...prev, length: l.data.length, today: todayData(l.data),
-      }));
+    }
+    catch (error0) {
+      console.error(error0.message);
+    }
+  }
+
+  const handleChart = ({ days, payload }) => {
+    const ctx = document.querySelector(`.${style.canvas}`);
+    const chartStatus = Chart.getChart(ctx);
+
+    if (chartStatus) {
+      chartStatus.destroy();
+    }
+
+    const chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: [...days.map((item) => moment(item).format('dddd'))],
+        datasets: [
+          {
+            label: 'Member Activity',
+            backgroundColor: '#188c94',
+            borderColor: '#188c94',
+            data: payload.members.map((item) => item),
+            tension: 0.2,
+          },
+          {
+            label: 'Book Activity',
+            backgroundColor: '#434d5c',
+            borderColor: '#434d5c',
+            data: payload.books.map((item) => item),
+            tension: 0.2,
+          },
+          {
+            label: 'Loan Activity',
+            backgroundColor: '#ff335f',
+            borderColor: '#ff335f',
+            data: payload.loans.map((item) => item),
+            tension: 0.2,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+      },
+    });
+
+    return chart;
+  }
+
+  const handleGetActivities = async () => {
+    try {
+      const url = isDev ? 'http://localhost:8000/api/activities' : '/api/activities';
+      const req = await (await fetch(url, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })).json();
+
+      if (!req.success) throw req;
+
+      handleChart(req.data);
+      handleGetMonitorData(req.data.payload);
     }
     catch (error0) {
       console.error(error0.message);
@@ -69,16 +133,23 @@ function Dashboard() {
   useEffect(() => {
     document.title = 'E-Library - Dashboard';
     handleGetActivities();
-    handleGetMonitorData();
   }, []);
 
   return (
     <div className={style.dashboard}>
-      { logoutIsOpen && <comp0.logout setLogoutIsOpen={setLogoutIsOpen} /> }
       <comp0.sidebar linkActive="dashboard" />
+      { modal.logout && <comp0.logout setModal={setModal} /> }
+      { modal.deleteAccount && (<comp0.deleteAccount setModal={setModal} />) }
+      {
+        modal.profile && (
+          <comp0.profile
+            setModal={setModal}
+          />
+        )
+      }
       <div className={style['dashboard-wrap']}>
         <comp0.navbar
-          setLogoutIsOpen={setLogoutIsOpen}
+          setModal={setModal}
         />
         <div className={style.top}>
           <div className={style.monitor}>
@@ -86,9 +157,10 @@ function Dashboard() {
               <span className={style.info}>
                 <p>Members</p>
                 <h1 className={style.num}>
-                  {members.length > 0 && members.length < 10 && 0}{members.length}
+                  {monitor.members.len > 0 && monitor.members.len < 10 && 0}
+                  {monitor.members.len}
                 </h1>
-                <Link to="/member" className={style.link}>Check & Manage Page</Link>
+                <p>{monitor.members.sen}% of today's activity in 1 week</p>
               </span>
               <span className={style.icon}>
                 <box-icon name="group"></box-icon>
@@ -98,9 +170,10 @@ function Dashboard() {
               <span className={style.info}>
                 <p>Book Catalogs</p>
                 <h1 className={style.num}>
-                  {books.length > 0 && books.length < 10 && 0}{books.length}
+                  {monitor.books.len > 0 && monitor.books.len < 10 && 0}
+                  {monitor.books.len}
                 </h1>
-                <Link to="/member" className={style.link}>Check & Manage Page</Link>
+                <p>{monitor.books.sen}% of today's activity in 1 week</p>
               </span>
               <span className={style.icon}>
                 <box-icon name="book"></box-icon>
@@ -110,9 +183,10 @@ function Dashboard() {
               <span className={style.info}>
                 <p>Book Loans</p>
                 <h1 className={style.num}>
-                  {loans.length > 0 && loans.length < 10 && 0}{loans.length}
+                  {monitor.loans.len > 0 && monitor.loans.len < 10 && 0}
+                  {monitor.loans.len}
                 </h1>
-                <Link to="/member" className={style.link}>Check & Manage Page</Link>
+                <p>{monitor.loans.sen}% of today's activity in 1 week</p>
               </span>
               <span className={style.icon}>
                 <box-icon name="shopping-bag"></box-icon>
@@ -121,30 +195,7 @@ function Dashboard() {
           </div>
         </div>
         <div className={style.bottom}>
-          <div className={style.header}>
-            <h3 className={style.title}>Recent Activities</h3>
-            <box-icon name="history"></box-icon>
-          </div>
-          <div className={style.activities}>
-            <div className={style['activities-wrap']}>
-              <table className={style.table}>
-                <tbody className={style.tbody}>
-                  {
-                    activities.map((data) => (
-                      <tr className={`${style.tr} ${style[data.action]}`} key={data.id}>
-                        <td className={style.action}><span className={`${style.dot} ${style[data.action]}`}></span></td>
-                        <td>{data.id}</td>
-                        <td>{data.description}</td>
-                        <td className={style.time}>
-                          <span>{moment(data.createdAt).fromNow()}</span>
-                        </td>
-                      </tr>
-                    ))
-                  }
-                </tbody>
-              </table>
-            </div>
-          </div>
+          <canvas className={style.canvas}></canvas>
         </div>
       </div>
     </div>
