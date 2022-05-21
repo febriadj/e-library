@@ -27,7 +27,6 @@
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: flex-start;
-  gap: 20px;
   padding: 20px;
 }
 .monitor .box .info {
@@ -81,48 +80,12 @@
   overflow-y: auto;
   align-self: flex-start;
 }
-.activities .table {
-  border-collapse: collapse;
-}
-.tbody td {
-  padding: 10px;
-}
-.tr.create {
-  background: #188c9410;
-}
-.tr.update {
-  background: #592ca110;
-}
-.tr.delete {
-  background: #ff335f10;
-}
-.tbody .action {
-  display: flex;
-  align-items: center;
-}
-.tbody .action .dot {
+.canvas {
   display: block;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  transform: translate(0, 5px);
 }
-.tbody .action .dot.create {
-  background: #188c94;
-}
-.tbody .action .dot.update {
-  background: #592ca1;
-}
-.tbody .action .dot.delete {
-  background: #ff335f;
-}
-.tbody .tr .time {
-  text-align: right;
-  font-size: 0.9rem;
-}
-.tbody .tr {
-  display: grid;
-  grid-template-columns: 30px 200px 1fr auto;
-  cursor: default;
-  align-items: flex-start;
+
+@media screen and (max-width: 1024px) {
+  .dashboard-wrap {
+    padding: 20px 20px 20px 80px;
+  }
 }
