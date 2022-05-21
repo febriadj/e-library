@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import Chart from 'chart.js/auto';
 
 import style from '../styles/pages/bookCatalog.css';
+import styleInfobox from '../styles/components/bookCatalog/infobox.css';
+
 import * as comp0 from '../components';
 import * as comp1 from '../components/bookCatalog';
+import handleChart from '../helpers/handleChart';
 
 function BookCatalogs() {
   const isDev = process.env.NODE_ENV === 'development';
   const pagLimit = JSON.parse(localStorage.getItem('pag'));
 
-  const [logoutIsOpen, setLogoutIsOpen] = useState(false);
   const [params, setParams] = useState({
     page: 1,
     q: '',
@@ -34,6 +35,13 @@ function BookCatalogs() {
   const [details, setDetails] = useState({
     data: null,
     isOpen: false,
+  });
+
+  const [modal, setModal] = useState({
+    deleteAccount: false,
+    changePassword: false,
+    logout: false,
+    profile: false,
   });
 
   const [movePage, setMovePage] = useState({
@@ -74,35 +82,6 @@ function BookCatalogs() {
     }
   }
 
-  const handleChart = (args) => {
-    const ctx = document.querySelector('canvas');
-    const chartData = [...args.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))];
-
-    const chart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: chartData.map((item) => (
-          item.title.length <= 16 ? item.title : item.title.substr(0, 16).trim().concat('...')
-        )),
-        datasets: [
-          {
-            label: 'Most Stock',
-            backgroundColor: [
-              '#434d5cbb', '#434d5c80',
-            ],
-            maxBarThickness: 80,
-            data: chartData.map((item) => item.stock),
-          },
-        ],
-      },
-      options: {
-        responsive: true,
-      },
-    });
-
-    return chart;
-  }
-
   const handleInfoboxData = async () => {
     try {
       const token = localStorage.getItem('token');
@@ -116,7 +95,14 @@ function BookCatalogs() {
       })).json();
 
       setInfoboxData(request.data);
-      handleChart(request.data.sort((a, b) => b.stock - a.stock).slice(0, 3));
+      handleChart({
+        ctx: document.querySelector(`.${styleInfobox.canvas}`),
+        payload: request.data.sort((a, b) => b.stock - a.stock).slice(0, 5),
+        datasets: {
+          label: 'title',
+          data: 'stock',
+        },
+      });
     }
     catch (error0) {
       console.error(error0.message);
@@ -137,13 +123,24 @@ function BookCatalogs() {
     document.title = 'E-Library - Book Catalog';
 
     handleInfoboxData();
+  }, []);
+
+  useEffect(() => {
     handleGetBookCatalogs(pagLimit.book);
   }, [params]);
 
   return (
     <div className={style.book}>
-      { logoutIsOpen && <comp0.logout setLogoutIsOpen={setLogoutIsOpen} /> }
       <comp0.sidebar linkActive="book" />
+      { modal.logout && <comp0.logout setModal={setModal} /> }
+      { modal.deleteAccount && (<comp0.deleteAccount setModal={setModal} />) }
+      {
+        modal.profile && (
+          <comp0.profile
+            setModal={setModal}
+          />
+        )
+      }
       {
         addBookIsOpen && (
           <comp1.addBook
@@ -184,7 +181,7 @@ function BookCatalogs() {
       <div className={style['book-wrap']}>
         <comp0.navbar
           path="Book Catalog"
-          setLogoutIsOpen={setLogoutIsOpen}
+          setModal={setModal}
         />
         <div className={style.top}>
           <comp1.infobox catalogs={infoboxData} />
@@ -267,7 +264,7 @@ function BookCatalogs() {
                 <option value={10}>10</option>
                 <option value={15}>15</option>
                 <option value={20}>20</option>
-                <option value={25}>30</option>
+                <option value={30}>30</option>
               </select>
               <p className={style.text}>rows per page</p>
             </div>
