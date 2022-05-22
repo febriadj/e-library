@@ -45,14 +45,12 @@ function Login({
         throw newError;
       }
 
-      if (fields.remember === 'on') {
-        localStorage.setItem(
-          'config',
-          JSON.stringify({
-            remember: fields.email,
-          }),
-        );
-      }
+      localStorage.setItem(
+        'config',
+        JSON.stringify({
+          remember: fields.remember === 'on' ? fields.email : '',
+        }),
+      );
 
       const url = isDev ? 'http://localhost:8000/api/users/login' : '/api/users/login';
       const req = await (await fetch(url, {
