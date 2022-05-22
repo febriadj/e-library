@@ -36,6 +36,7 @@ function Sidebar({
           </Link>
         </div>
         <div className={style.footer}>
+          <span className={style.cp}><box-icon name="copyright" color="#ffffff"></box-icon></span>
           <p className={style.text}>&copy; 2022. All right reserved</p>
         </div>
       </div>
