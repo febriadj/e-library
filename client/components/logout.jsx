@@ -3,17 +3,18 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import style from '../styles/components/logout.css';
 
-function Logout({ setLogoutIsOpen }) {
+function Logout({ setModal }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleLogout = () => {
     localStorage.removeItem('token');
-    setLogoutIsOpen(false);
+    setModal((prev) => ({
+      ...prev,
+      logout: false,
+    }));
 
     setTimeout(() => {
-      navigate('/');
-
       dispatch({
         type: 'counter/isLoggedIn',
         payload: { data: false },
@@ -23,11 +24,22 @@ function Logout({ setLogoutIsOpen }) {
         type: 'counter/user',
         payload: { data: null },
       });
+
+      navigate('/');
     }, 1000);
   }
 
   return (
     <div className={style.logout}>
+      <span
+        className={style['close-area']}
+        onClick={() => setModal((prev) => ({
+          ...prev,
+          logout: false,
+        }))}
+        aria-hidden="true"
+      >
+      </span>
       <div className={style['logout-wrap']}>
         <div className={style.header}>
           <h2 className={style.title}>Sign Out.</h2>
@@ -41,7 +53,10 @@ function Logout({ setLogoutIsOpen }) {
           <button
             type="submit"
             className={style.btn}
-            onClick={() => setLogoutIsOpen(false)}
+            onClick={() => setModal((prev) => ({
+              ...prev,
+              logout: false,
+            }))}
           >
             <p className="text">Cancel</p>
             <box-icon name="x-circle" color="#ffffff"></box-icon>
