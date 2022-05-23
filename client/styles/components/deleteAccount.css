@@ -1,0 +1,62 @@
+.delete-acc {
+  position: fixed;
+  width: 100%; height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #00050e80;
+  z-index: 9;
+}
+.delete-acc-wrap {
+  position: relative;
+  width: 400px;
+  background: #ffffff;
+  padding: 20px;
+}
+.nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin: 0 0 5px 0;
+}
+.nav button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  transform: translate(-10px, 10px);
+  cursor: pointer;
+}
+.nav button:hover {
+  background: #f0f0f0;
+}
+.delete-acc form {
+  margin: 40px 0 0 0;
+  display: grid;
+}
+.input {
+  padding: 10px;
+  border: 1px solid #888;
+  margin: 10px 0 0 0;
+}
+.submit-btn {
+  background: #d63232;
+  padding: 10px;
+  margin: 10px 0 0 0;
+  color: #ffffff;
+  cursor: pointer;
+}
+.submit-btn:hover {
+  filter: brightness(0.9);
+}
+.close-area {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
