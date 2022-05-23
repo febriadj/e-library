@@ -65,13 +65,13 @@ function Details({
               <tr className={style.row}>
                 <td className={style.column}>Since</td>
                 <td className={style.column}>:</td>
-                <td className={style.column}>{moment(details.data.createdAt).format('MMMM DD, YYYY')}</td>
+                <td className={style.column}>{moment(details.data.createdAt).format('LL')}</td>
               </tr>
               <tr className={style.row}>
                 <td className={style.column}>Deadline</td>
                 <td className={style.column}>:</td>
                 <td className={style.column}>
-                  <span></span>{moment(details.data.deadline).format('MMMM DD, YYYY')}
+                  <span></span>{moment(details.data.deadline).format('LL')}
                   <span className={`${style.deadline} ${expired() && style.expired}`}>
                     {expired() ? 'Expired' : 'Active'}
                   </span>
