@@ -82,7 +82,7 @@ function Table({
               <td className={style.column} onClick={() => handleOpenDetails(item)} aria-hidden="true">{item.bookTitle}</td>
               <td className={style.column} onClick={() => handleOpenDetails(item)} aria-hidden="true">{item.fullname}</td>
               <td className={style.column} onClick={() => handleOpenDetails(item)} aria-hidden="true">{item.stock}</td>
-              <td className={style.column}>
+              <td className={style.column} onClick={() => handleOpenDetails(item)} aria-hidden="true">
                 <span className={`${style.tag} ${new Date(item.deadline) < new Date() && style.expired}`}>
                   {moment(item.deadline).format('ll')}
                 </span>
