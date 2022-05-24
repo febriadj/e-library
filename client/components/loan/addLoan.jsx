@@ -4,6 +4,7 @@ import style from '../../styles/components/loan/addLoan.css';
 function AddLoan({
   setAddLoanIsOpen,
   handleGetLoans,
+  handleInfoboxData,
 }) {
   const isDev = process.env.NODE_ENV === 'development';
   const pagLimit = JSON.parse(localStorage.getItem('pag'));
@@ -72,6 +73,7 @@ function AddLoan({
       }));
 
       handleGetLoans(pagLimit.loan);
+      handleInfoboxData();
 
       setTimeout(() => {
         setAddLoanIsOpen(false);
@@ -91,13 +93,21 @@ function AddLoan({
   }
 
   useEffect(() => {
-    setValid((prev) => ({
-      ...prev,
-      bookCode: fields.bookCode.length === 12,
-      memberId: fields.memberId.length === 9,
-      stock: fields.stock > 0 && fields.stock <= 999,
-      deadline: !!fields.deadline,
-    }));
+    let mounted = true;
+
+    if (mounted) {
+      setValid((prev) => ({
+        ...prev,
+        bookCode: fields.bookCode.length === 12,
+        memberId: fields.memberId.length === 9,
+        stock: fields.stock > 0 && fields.stock <= 999,
+        deadline: !!fields.deadline,
+      }));
+    }
+
+    return () => {
+      mounted = false;
+    }
   }, [fields]);
 
   return (
