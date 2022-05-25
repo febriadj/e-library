@@ -95,10 +95,18 @@ function AddLoan({
   }
 
   useEffect(() => {
-    setValid((prev) => ({
-      ...prev,
-      deadline: !!fields.deadline,
-    }));
+    let mounted = true;
+
+    if (mounted) {
+      setValid((prev) => ({
+        ...prev,
+        deadline: !!fields.deadline,
+      }));
+    }
+
+    return () => {
+      mounted = false;
+    }
   }, [fields]);
 
   return (
