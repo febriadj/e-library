@@ -1,5 +1,5 @@
 import React from 'react';
-import style from '../../styles/components/bookCatalog/infobox.css';
+import style from '../../styles/components/loan/infobox.css';
 
 function Infobox({ loans }) {
   const handleTotalStock = () => {
@@ -13,7 +13,7 @@ function Infobox({ loans }) {
     <div className={style.infobox}>
       <div className={style.box}>
         <div className={style.content}>
-          <p className={style.title}>Registered Loan Amount</p>
+          <p className={style.title}>Loan Amount</p>
           <h1 className={style.total}>
             {loans.length > 0 && loans.length < 10 && 0}{loans.length}
           </h1>
@@ -24,7 +24,7 @@ function Infobox({ loans }) {
       </div>
       <div className={style.box}>
         <div className={style.content}>
-          <p className={style.title}>Total Stock All Loans</p>
+          <p className={style.title}>Total Stock</p>
           <h1 className={style.total}>{handleTotalStock()}</h1>
         </div>
         <span className={style.icon}>
@@ -32,7 +32,7 @@ function Infobox({ loans }) {
         </span>
       </div>
       <div className={style.box}>
-        <canvas className={style.canvas} height={150}></canvas>
+        <canvas className={style.canvas} width={100}></canvas>
       </div>
     </div>
   );
