@@ -1,13 +1,14 @@
 .infobox {
   display: grid;
-  grid-template-columns: 0.7fr 0.7fr 1fr;
+  grid-template-columns: 0.5fr 0.5fr 1fr;
   gap: 15px;
 }
 .box {
   display: grid;
   grid-template-columns: 1fr auto;
-  background: #188c9450;
+  background: #ffffff;
   padding: 15px;
+  height: 140px;
 }
 .box .icon {
   width: 40px;
@@ -35,4 +36,28 @@
 }
 .box .canvas {
   width: 100%;
+}
+
+@media screen and (max-width: 1024px) {
+  .infobox {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+    "box1 box2"
+    "canvas canvas";
+  }
+  .box:nth-child(1) {
+    grid-area: box1;
+    height: 80px;
+  }
+  .box:nth-child(2) {
+    grid-area: box2;
+    height: 80px;
+  }
+  .box:nth-child(3) {
+    grid-area: canvas;
+    height: 120px;
+  }
+  .content .total {
+    font-size: 2.5rem;
+  }
 }
