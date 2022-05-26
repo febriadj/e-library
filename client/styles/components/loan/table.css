@@ -39,7 +39,7 @@
 }
 .row {
   display: grid;
-  grid-template-columns: 50px 120px 120px 1fr 0.6fr 80px 0.6fr 100px;
+  grid-template-columns: 50px 110px 120px 1fr 0.6fr 80px 0.6fr 100px;
   align-items: center;
   transition: cubic-bezier(0.08,0.82,0.17,1) 0.3s;
 }
@@ -60,4 +60,14 @@
 }
 .action .btn:hover {
   background: #434d5c50;
+}
+
+@media screen and (max-width: 1024px) {
+  .row {
+    grid-template-columns: 50px 110px 120px 1fr 0.6fr 100px;
+  }
+  .column:nth-child(5),
+  .column:nth-child(6) {
+    display: none;
+  }
 }
