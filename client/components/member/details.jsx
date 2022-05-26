@@ -50,7 +50,7 @@ function Details({
               <tr className={style.row}>
                 <td className={style.column}>Email</td>
                 <td className={style.column}>:</td>
-                <td className={style.column}>{data.email}</td>
+                <td className={style.column}>{data.email || data.email.length > 0 ? data.email : '-'}</td>
               </tr>
               <tr className={style.row}>
                 <td className={style.column}>Phone</td>
@@ -65,7 +65,7 @@ function Details({
               <tr className={style.row}>
                 <td className={style.column}>Join Date</td>
                 <td className={style.column}>:</td>
-                <td className={style.column}>{moment(data.createdAt).format('MMMM DD, YYYY')}</td>
+                <td className={style.column}>{moment(data.createdAt).format('LL')}</td>
               </tr>
             </tbody>
           </table>
