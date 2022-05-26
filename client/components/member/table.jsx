@@ -14,6 +14,7 @@ function Table({
   setConfirmDelete,
 }) {
   const isDev = process.env.NODE_ENV === 'development';
+  const pagLimit = JSON.parse(localStorage.getItem('pag'));
 
   const handleDeleteMember = async (args) => {
     try {
@@ -40,7 +41,7 @@ function Table({
       ctx.style = 'opacity: 0';
 
       setTimeout(() => {
-        handleGetMembers();
+        handleGetMembers(pagLimit.member);
 
         setTimeout(() => {
           ctx.style = 'opacity: 1';
@@ -79,7 +80,7 @@ function Table({
           <td className={style.column}>Document ID</td>
           <td className={style.column}>Full Name</td>
           <td className={style.column}>Phone</td>
-          <td className={style.column}>Address</td>
+          <td className={style.column}>Email</td>
           <td className={style.column}>Join Date</td>
           <td className={`${style.column} ${style.action}`}>Action</td>
         </tr>
@@ -93,7 +94,13 @@ function Table({
               <td className={style.column} onClick={() => handleSetDetailsMember(item)} aria-hidden="true">{item.documentId}</td>
               <td className={style.column} onClick={() => handleSetDetailsMember(item)} aria-hidden="true">{`${item.firstname} ${item.lastname}`}</td>
               <td className={style.column} onClick={() => handleSetDetailsMember(item)} aria-hidden="true">{item.phone}</td>
-              <td className={style.column} onClick={() => handleSetDetailsMember(item)} aria-hidden="true">{item.address}</td>
+              <td
+                className={style.column}
+                onClick={() => handleSetDetailsMember(item)}
+                aria-hidden="true"
+              >
+                {item.email || item.email.length > 0 ? item.email : '-'}
+              </td>
               <td className={style.column} onClick={() => handleSetDetailsMember(item)} aria-hidden="true">{moment(item.createdAt).format('ll')}</td>
               <td className={`${style.column} ${style.action}`}>
                 <button
