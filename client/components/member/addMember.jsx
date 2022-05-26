@@ -6,6 +6,8 @@ function AddMember({
   handleGetMembers,
 }) {
   const isDev = process.env.NODE_ENV === 'development';
+  const pagLimit = JSON.parse(localStorage.getItem('pag'));
+
   const [response, setResponse] = useState({
     success: false,
     message: '',
@@ -81,7 +83,7 @@ function AddMember({
         active: true,
       }));
 
-      handleGetMembers();
+      handleGetMembers(pagLimit.member);
 
       setTimeout(() => {
         setAddMemberIsOpen(false);
@@ -101,18 +103,22 @@ function AddMember({
   }
 
   useEffect(() => {
-    const expDocId = /^[a-zA-Z0-9]{5,30}$/g;
-    const expFirstname = /^[a-zA-Z.,\s]{3,30}$/g;
-    const expLastname = /^[a-zA-Z.,\s]{3,30}$/g;
+    let mounted = true;
 
-    setValid((prev) => ({
-      ...prev,
-      documentId: expDocId.test(fields.documentId),
-      firstname: expFirstname.test(fields.firstname),
-      lastname: expLastname.test(fields.lastname),
-      phone: fields.phone.length >= 5 && fields.phone.length <= 30,
-      address: fields.address.length >= 5,
-    }));
+    if (mounted) {
+      setValid((prev) => ({
+        ...prev,
+        documentId: /^[a-zA-Z0-9]{5,30}$/g.test(fields.documentId),
+        firstname: /^[a-zA-Z.,\s]{3,30}$/g.test(fields.firstname),
+        lastname: /^[a-zA-Z.,\s]{3,30}$/g.test(fields.lastname),
+        phone: fields.phone.length >= 5 && fields.phone.length <= 30,
+        address: fields.address.length >= 5,
+      }));
+    }
+
+    return () => {
+      mounted = false;
+    }
   }, [fields]);
 
   return (
