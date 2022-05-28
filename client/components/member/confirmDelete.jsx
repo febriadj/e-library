@@ -9,6 +9,7 @@ function ConfirmDelete({
   handleGetMembers,
 }) {
   const isDev = process.env.NODE_ENV === 'development';
+  const pagLimit = JSON.parse(localStorage.getItem('pag'));
 
   const handleDeleteMember = async () => {
     const token = localStorage.getItem('token');
@@ -36,7 +37,7 @@ function ConfirmDelete({
       ctx.style = 'opacity: 0';
 
       setTimeout(() => {
-        handleGetMembers();
+        handleGetMembers(pagLimit.member);
 
         setTimeout(() => {
           ctx.style = 'opacity: 1';
