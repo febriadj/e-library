@@ -65,7 +65,7 @@ function Details({
                 <td className={style.column}>:</td>
                 <td className={style.column}>
                   <span className={style['publisher-name']}>{data?.publisher ? data.publisher : 'Unknown'}</span>
-                  <span>{` (${moment(data?.publicationDate).format('MMMM DD, YYYY') ?? ''})`}</span>
+                  <span>{` (${moment(data?.publicationDate).format('LL') ?? ''})`}</span>
                 </td>
               </tr>
               <tr className={style.row}>
@@ -76,7 +76,7 @@ function Details({
               <tr className={style.row}>
                 <td className={style.column}>Created At</td>
                 <td className={style.column}>:</td>
-                <td className={style.column}>{moment(data?.createdAt).format('MMMM DD, YYYY hh:mma') ?? ''}</td>
+                <td className={style.column}>{moment(data?.createdAt).format('LLL') ?? ''}</td>
               </tr>
             </tbody>
           </table>
