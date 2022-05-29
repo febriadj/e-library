@@ -20,6 +20,7 @@ function AddBook({
     author: false,
     publisher: false,
     stock: false,
+    publicationDate: false,
   });
 
   const [fields, setFields] = useState({
@@ -45,6 +46,7 @@ function AddBook({
         !valid.title
         || !valid.author
         || !valid.stock
+        || !valid.publicationDate
       ) {
         const newError = {
           message: 'Please fill out the form correctly',
@@ -98,12 +100,19 @@ function AddBook({
   }
 
   useEffect(() => {
-    setValid((prev) => ({
-      ...prev,
-      title: fields.title.length >= 5 && fields.title.length <= 100,
-      author: fields.author.length >= 3 && fields.author.length <= 30,
-      stock: fields.stock > 0 && fields.stock <= 999,
-    }));
+    let mounted = true;
+
+    if (mounted) {
+      setValid((prev) => ({
+        ...prev,
+        title: fields.title.length >= 5 && fields.title.length <= 100,
+        author: fields.author.length >= 3 && fields.author.length <= 30,
+        stock: fields.stock > 0 && fields.stock <= 999,
+        publicationDate: !!fields.publicationDate,
+      }));
+    }
+
+    return () => { mounted = false };
   }, [fields]);
 
   return (
@@ -221,6 +230,12 @@ function AddBook({
                 required
               />
             </div>
+            <box-icon
+              name={valid.publicationDate ? 'check-circle' : 'x-circle'}
+              className={style.valid}
+              color={valid.publicationDate ? '#188c94' : '#9B0000'}
+            >
+            </box-icon>
           </label>
           <span className={style.response}>
             { response.active && (
