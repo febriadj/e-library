@@ -24,7 +24,7 @@ function Infobox({ catalogs }) {
       </div>
       <div className={style.box}>
         <div className={style.content}>
-          <p className={style.title}>Total Stock of All Books</p>
+          <p className={style.title}>Total Stock</p>
           <h1 className={style.total}>{handleTotalStock()}</h1>
         </div>
         <span className={style.icon}>
@@ -32,7 +32,7 @@ function Infobox({ catalogs }) {
         </span>
       </div>
       <div className={style.box}>
-        <canvas className={style.canvas} height={150}></canvas>
+        <canvas className={style.canvas} width={100}></canvas>
       </div>
     </div>
   );
