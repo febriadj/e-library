@@ -62,10 +62,7 @@
 .fields:nth-child(2) { grid-area: author; }
 .fields:nth-child(3) { grid-area: publisher; }
 .fields:nth-child(4) { grid-area: stock; }
-.fields:nth-child(5) {
-  grid-area: publicationYear;
-  grid-template-columns: 1fr;
-}
+.fields:nth-child(5) { grid-area: publicationYear; }
 .fields .control {
   width: 100%;
   padding: 5px 0 0 0;
