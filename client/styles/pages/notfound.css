@@ -15,7 +15,20 @@
 }
 .main {
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  gap: 20px;
+  align-items: center;
+}
+.main-wrap {
+  max-width: 350px;
+  background: #ffffff;
+  padding: 20px;
+}
+.main p {
+  margin: 10px 0 0 0;
+}
+
+@media screen and (max-width: 1024px) {
+  .notfound-wrap {
+    padding: 20px 20px 20px 80px;
+  }
 }
