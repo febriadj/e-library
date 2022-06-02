@@ -95,7 +95,7 @@ function Login({
 
   useEffect(() => {
     const expEmail = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
-    const expPass = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z])(?=.*\W).{8,16}$/g;
+    const expPass = /^(?=.*\d)(?=.*[a-z]).{8,16}$/g;
 
     setValid((prev) => ({
       ...prev,
@@ -108,9 +108,6 @@ function Login({
     <div className={`${style.login} ${!registerIsOpen && style.active}`}>
       <div className={style.header}>
         <h1 className={style.title}>Sign In</h1>
-        <p className={style.text}>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi quae sapiente placeat.
-        </p>
       </div>
       <form className={style['login-wrap']} onSubmit={handleSubmit}>
         <label htmlFor="email" className={style.fields}>
@@ -144,7 +141,7 @@ function Login({
               id="password"
               className={`${style['form-control']} ${style.password}`}
               name="password"
-              placeholder="must contain A-Z, a-z, numbers & symbols"
+              placeholder="must contain a-z, numbers & length 8-16"
               onChange={handleChange}
               value={fields.password}
               required
