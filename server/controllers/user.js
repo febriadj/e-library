@@ -142,3 +142,40 @@ exports.delete = async (req, res) => {
     });
   }
 }
+
+exports.changePass = async (req, res) => {
+  try {
+    const { oldPass, newPass } = req.body;
+    const config = {
+      where: {
+        id: req.user.userId,
+      },
+      logging: false,
+    }
+
+    const user = await UserModel.findOne(config);
+    const compare = await bcrypt.compare(oldPass, user.password);
+
+    if (!compare) {
+      // condition if password doesn't match
+      const newError = {
+        message: 'Old password doesn\'t match',
+      }
+      throw newError;
+    }
+
+    await UserModel.update({ password: newPass }, config);
+    response({
+      res,
+      message: 'Password changed successfully',
+    });
+  }
+  catch (error0) {
+    response({
+      success: false,
+      res,
+      message: error0.message,
+      statusCode: 400,
+    });
+  }
+}
