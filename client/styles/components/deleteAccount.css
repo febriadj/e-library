@@ -36,17 +36,25 @@
   background: #f0f0f0;
 }
 .delete-acc form {
-  margin: 40px 0 0 0;
+  margin: 20px 0 0 0;
   display: grid;
 }
 .input {
-  padding: 10px;
-  border: 1px solid #888;
+  padding: 15px 0;
+  border-bottom: 1px solid #888;
+}
+.response {
+  display: flex;
+}
+.response p {
+  background: #f0f0f0;
   margin: 10px 0 0 0;
+  border-radius: 1rem;
+  padding: 5px 10px;
 }
 .submit-btn {
   background: #d63232;
-  padding: 10px;
+  padding: 15px;
   margin: 10px 0 0 0;
   color: #ffffff;
   cursor: pointer;
