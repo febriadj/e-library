@@ -175,19 +175,24 @@ exports.update = async (req, res) => {
 
 exports.delete = async (req, res) => {
   try {
+    const { id, stock } = req.body;
     const loanConfig = {
       where: {
-        id: req.body.id,
+        id,
         userId: req.user.userId,
       },
       logging: false,
     }
 
     const loan = await LoanModel.findOne(loanConfig);
-    await LoanModel.destroy(loanConfig);
+    if (stock >= loan.stock) {
+      await LoanModel.destroy(loanConfig);
+    } else {
+      await LoanModel.update({ stock: loan.stock - stock }, loanConfig);
+    }
 
     await BookCatalogModel.increment({
-      stock: +loan.stock,
+      stock: +stock,
     }, {
       where: {
         userId: req.user.userId,
