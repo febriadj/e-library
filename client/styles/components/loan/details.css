@@ -8,6 +8,7 @@
   z-index: 9;
 }
 .details-wrap {
+  position: relative;
   background: #ffffff;
   width: 600px;
 }
