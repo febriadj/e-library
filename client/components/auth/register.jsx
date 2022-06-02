@@ -90,7 +90,7 @@ function Register({
 
   useEffect(() => {
     const expEmail = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
-    const expPass = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z])(?=.*\W).{8,16}$/g;
+    const expPass = /^(?=.*\d)(?=.*[a-z]).{8,16}$/g;
 
     setValid((prev) => ({
       ...prev,
@@ -105,9 +105,6 @@ function Register({
     <div className={`${style.register} ${registerIsOpen && style.active}`}>
       <div className={style.header}>
         <h1 className={style.title}>Sign Up</h1>
-        <p className={style.text}>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi quae sapiente placeat.
-        </p>
       </div>
       <form className={style['register-wrap']} onSubmit={handleSubmit}>
         <label htmlFor="firstname" className={style.fields}>
@@ -185,7 +182,7 @@ function Register({
               id="regisPassword"
               className={`${style['form-control']} ${style.password}`}
               name="password"
-              placeholder="must contain A-Z, a-z, numbers & symbols"
+              placeholder="must contain a-z, numbers & length 8-16"
               onChange={handleChange}
               value={fields.password}
               required
