@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import moment from 'moment';
 
 import style from '../../styles/components/loan/details.css';
+import PerStock from './deletePerStock';
 
 function Details({
+  handleGetLoans,
   details,
   setDetails,
 }) {
+  const [perStockIsOpen, setPerStockIsOpen] = useState(false);
   const expired = () => new Date(details.data.deadline) < new Date();
+
+  const [currentStock, setCurrentStock] = useState(details.data.stock);
 
   return (
     <div className={style.details}>
@@ -16,18 +21,35 @@ function Details({
         onClick={() => setDetails((prev) => ({
           ...prev,
           isOpen: false,
+          data: null,
         }))}
         aria-hidden="true"
       >
       </span>
       <div className={style['details-wrap']}>
+        {
+          perStockIsOpen && (
+            <PerStock
+              setCurrentStock={setCurrentStock}
+              setDetails={setDetails}
+              data={{
+                id: details.data.id,
+                currentStock,
+              }}
+              setPerStockIsOpen={setPerStockIsOpen}
+              handleGetLoans={handleGetLoans}
+            />
+          )
+        }
         <div className={style.nav}>
           <div className={style.top}>
             <button
               type="button"
               className={style.btn}
               onClick={() => setDetails((prev) => ({
-                ...prev, isOpen: false,
+                ...prev,
+                isOpen: false,
+                data: null,
               }))}
             >
               <box-icon name="arrow-back"></box-icon>
@@ -60,7 +82,7 @@ function Details({
               <tr className={style.row}>
                 <td className={style.column}>Stock</td>
                 <td className={style.column}>:</td>
-                <td className={style.column}>{details.data.stock}</td>
+                <td className={style.column}>{currentStock}</td>
               </tr>
               <tr className={style.row}>
                 <td className={style.column}>Since</td>
@@ -79,8 +101,12 @@ function Details({
               </tr>
             </tbody>
           </table>
-          <button type="button" className={style['loan-btn']}>
-            <p>No one is currently borrowing this book</p>
+          <button
+            type="button"
+            className={style['loan-btn']}
+            onClick={() => setPerStockIsOpen(true)}
+          >
+            <p>Delete Loan per Stock</p>
             <box-icon name="right-top-arrow-circle"></box-icon>
           </button>
         </div>
