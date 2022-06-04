@@ -26,6 +26,7 @@ function Table({
         },
         body: JSON.stringify({
           id: args.id,
+          stock: args.stock,
         }),
       })).json();
 
@@ -107,6 +108,7 @@ function Table({
                   onClick={() => handleDeleteLoan({
                     index: index + 1,
                     id: item.id,
+                    stock: item.stock,
                   })}
                 >
                   <box-icon name="trash"></box-icon>
