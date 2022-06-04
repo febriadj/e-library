@@ -107,6 +107,7 @@ function Member() {
       <comp0.sidebar linkActive="member" />
       { modal.logout && <comp0.logout setModal={setModal} /> }
       { modal.deleteAccount && (<comp0.deleteAccount setModal={setModal} />) }
+      { modal.changePass && (<comp0.changePass setModal={setModal} />) }
       {
         modal.profile && (
           <comp0.profile
