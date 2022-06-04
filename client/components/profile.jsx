@@ -48,7 +48,14 @@ function Profile({
         >
           <p>Delete Account</p>
         </button>
-        <button type="button"><p>Change Password</p></button>
+        <button
+          type="button"
+          onClick={() => {
+            handleModal('profile', 'changePass');
+          }}
+        >
+          <p>Change Password</p>
+        </button>
         <span className={style.strip}></span>
         <button
           type="button"
