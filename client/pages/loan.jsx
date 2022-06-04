@@ -134,6 +134,7 @@ function Loan() {
       <comp0.sidebar linkActive="loan" />
       { modal.logout && <comp0.logout setModal={setModal} /> }
       { modal.deleteAccount && (<comp0.deleteAccount setModal={setModal} />) }
+      { modal.changePass && (<comp0.changePass setModal={setModal} />) }
       {
         modal.profile && (
           <comp0.profile
@@ -162,6 +163,7 @@ function Loan() {
       {
         details.isOpen && (
           <comp1.details
+            handleGetLoans={handleGetLoans}
             details={details}
             setDetails={setDetails}
           />
