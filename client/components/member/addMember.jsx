@@ -108,7 +108,7 @@ function AddMember({
     if (mounted) {
       setValid((prev) => ({
         ...prev,
-        documentId: /^[a-zA-Z0-9]{5,30}$/g.test(fields.documentId),
+        documentId: /^[a-zA-Z0-9_-]{5,30}$/g.test(fields.documentId),
         firstname: /^[a-zA-Z.,\s]{3,30}$/g.test(fields.firstname),
         lastname: /^[a-zA-Z.,\s]{3,30}$/g.test(fields.lastname),
         phone: fields.phone.length >= 5 && fields.phone.length <= 30,
