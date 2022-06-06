@@ -96,18 +96,27 @@ function DeleteAccount({ setModal }) {
           </button>
         </div>
         <p className={style.text}>
-          This account will be deleted, all data will be lost & you can no longer reach this account
+          This account will be deleted, all data will be lost
+          & you can no longer access this account
         </p>
         <form method="delete" className={style.form} onSubmit={handleDeleteAccount}>
-          <p className={style.response}>{response.message}</p>
+          <span className={style.response}><p>{response.message}</p></span>
           <input
             type="password"
             name="password"
             className={style.input}
             id="password"
             placeholder="Enter your password"
-            onChange={(event) => setPassword(event.target.value)}
             value={password}
+            required
+            onChange={(event) => {
+              setPassword(event.target.value);
+              if (response.message) {
+                setResponse((prev) => ({
+                  ...prev, success: false, message: null,
+                }));
+              }
+            }}
           />
           <button type="submit" className={style['submit-btn']}>
             Delete Account
