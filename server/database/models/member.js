@@ -48,6 +48,7 @@ const MemberModel = conn.define('members', {
 MemberModel.belongsTo(UserModel, {
   onDelete: 'cascade',
   onUpdate: 'cascade',
+  foreignKey: 'userId',
 });
 
 module.exports = MemberModel;
