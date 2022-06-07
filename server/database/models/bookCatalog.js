@@ -40,6 +40,7 @@ const BookCatalogModel = conn.define('bookCatalogs', {
 BookCatalogModel.belongsTo(UserModel, {
   onUpdate: 'cascade',
   onDelete: 'cascade',
+  foreignKey: 'userId',
 });
 
 module.exports = BookCatalogModel;
