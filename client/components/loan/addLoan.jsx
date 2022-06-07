@@ -40,7 +40,12 @@ function AddLoan({
     try {
       event.preventDefault();
 
-      if (!valid.deadline) {
+      if (
+        !valid.bookCode
+        || !valid.memberId
+        || !valid.stock
+        || !valid.deadline
+      ) {
         const newError = {
           message: 'Please fill out the form correctly',
         }
