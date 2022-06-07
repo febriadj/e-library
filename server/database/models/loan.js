@@ -50,7 +50,10 @@ const obj = {
   onDelete: 'cascade',
 }
 
-LoanModel.belongsTo(UserModel, obj);
+LoanModel.belongsTo(UserModel, {
+  ...obj,
+  foreignKey: 'userId',
+});
 
 LoanModel.belongsTo(BookCatalogModel, {
   ...obj,
