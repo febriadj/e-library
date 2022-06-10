@@ -164,7 +164,11 @@ exports.changePass = async (req, res) => {
       throw newError;
     }
 
-    await UserModel.update({ password: newPass }, config);
+    await UserModel.update(
+      { password: await bcrypt.hash(newPass, await bcrypt.genSalt(10)) },
+      config,
+    );
+
     response({
       res,
       message: 'Password changed successfully',
