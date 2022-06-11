@@ -18,6 +18,8 @@ exports.insert = async (req, res) => {
       ...req.body,
       userId: req.user.userId,
       id: memberId,
+    }, {
+      logging: false,
     });
 
     await activities({
