@@ -11,7 +11,7 @@ exports.find = async (req, res) => {
       where: {
         userId: req.user.userId,
         createdAt: {
-          [Op.lt]: new Date(new Date(today.getTime()).setDate(today.getDate() - 6)),
+          [Op.lt]: new Date(new Date(today.getTime()).setDate(today.getDate() - 7)),
         },
       },
       logging: false,
