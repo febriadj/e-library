@@ -49,17 +49,24 @@ function App() {
   }
 
   useEffect(() => {
+    let mounted = true;
     const token = localStorage.getItem('token');
 
-    dispatch({
-      type: 'counter/isLoggedIn',
-      payload: {
-        data: !!token,
-      },
-    });
+    if (mounted) {
+      dispatch({
+        type: 'counter/isLoggedIn',
+        payload: {
+          data: !!token,
+        },
+      });
 
-    handlePagLimit();
-    if (isLoggedIn) handleGetUser();
+      handlePagLimit();
+      if (isLoggedIn) handleGetUser();
+    }
+
+    return () => {
+      mounted = false;
+    }
   }, [isLoggedIn]);
 
   return (
