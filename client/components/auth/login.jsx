@@ -165,7 +165,6 @@ function Login({
             />
             <p className={style.text}>Remember me</p>
           </div>
-          <button type="button" className={style.forgot}>Forgot password</button>
         </div>
         <span className={style.response}>
           { response.active && (
