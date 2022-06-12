@@ -61,7 +61,7 @@ function ChangePass({ setModal }) {
           ...prev,
           changePass: false,
         }));
-      }, 500);
+      }, 1000);
     }
     catch (error0) {
       setResponse(error0.message);
