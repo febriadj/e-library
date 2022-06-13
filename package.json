@@ -3,12 +3,17 @@
   "version": "1.0.0",
   "description": "e-library is a web-based digital library application service",
   "main": "server/index.js",
+  "engines": {
+    "npm": ">=8.11.0",
+    "node": ">=16.14.1"
+  },
   "scripts": {
     "server-dev": "nodemon server/index.js",
     "server-start": "node server/index.js",
     "client-dev": "webpack serve --mode=development --config ./webpack.config.js --open",
     "client-build": "webpack --mode=production",
-    "dev": "concurrently \"npm run server-dev\" \"npm run client-dev\""
+    "dev": "concurrently \"npm run server-dev\" \"npm run client-dev\"",
+    "heroku-postbuild": "npm run client-build"
   },
   "repository": {
     "type": "git",
