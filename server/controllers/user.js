@@ -64,7 +64,7 @@ exports.login = async (req, res) => {
     }
 
     // create jwt token
-    const token = jwt.sign({ userId: user.id }, process.env.JWT_PRIVATE_TOKEN);
+    const token = jwt.sign({ userId: user.id }, 'shhhhh');
 
     response({
       res,
