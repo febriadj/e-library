@@ -9,6 +9,10 @@ mysql> CREATE DATABASE elibrary;
 ~~~
 Create your MySQL database and name it `elibrary`
 ~~~
+$ mv .env.example .env
+~~~
+Rename the `.env.example` file to `.env`
+~~~
 $ npm install
 ~~~
 Install all dependencies on this project.
