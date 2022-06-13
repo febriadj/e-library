@@ -15,7 +15,7 @@ module.exports = async (req, res, next) => {
 
     const token = header.split(' ')[1];
     // store token in req object
-    req.user = await jwt.verify(token, process.env.JWT_PRIVATE_TOKEN);
+    req.user = await jwt.verify(token, 'shhhhh');
 
     next();
   }
